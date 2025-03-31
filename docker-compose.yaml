@@ -95,9 +95,13 @@ services:
       build: ./frontend
       tty: true
       volumes:
-        - ./frontend:/frontend
+        - ./frontend:/app
+        - /app/node_modules
+        - ./frontend/.pnpm-store/:/app/.pnpm-store/
       ports:
         - 5173:5173
+      environment:
+        - PNPM_STORE_PATH=/app/.pnpm-store
     db:
       image: postgres:latest
       restart: unless-stopped
