@@ -19,10 +19,11 @@ func init() {
 
 // connectDB はデータベースに接続する処理を担当
 func connectDB() {
+	host := os.Getenv("DB_HOST")
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
-	dbname := os.Getenv("DB_NAME")
-	dsn := fmt.Sprintf("host=localhost user=%s password=%s dbname=%s port=5432 sslmode=disable", user, password, dbname)
+	dbname := os.Getenv("DB_DB")
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable", host, user, password, dbname)
 
 	log.Println("Connecting to database...")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

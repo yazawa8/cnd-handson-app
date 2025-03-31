@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// データベース接続の初期化
-	if err := db.InitDB(); err != nil {
+	if _, err := db.InitDB(); err != nil {
 		fmt.Println(errors.Wrap(err, "failed to initialize database"))
 		return
 	}

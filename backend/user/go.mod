@@ -1,6 +1,6 @@
-module github.com/cloudnativedaysjp/cnd-handson-app
+module github.com/cloudnativedaysjp/cnd-handson-app/backend/user
 
-go 1.23.0
+go 1.24.1
 
 require (
 	github.com/pkg/errors v0.9.1
@@ -20,6 +20,4 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 )
 
-replace (
-	github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/db => ./pkg/db
-)
+replace github.com/cloudnativedaysjp/cnd-handson-app/backend/user => ./ // ローカルパスに置き換え
