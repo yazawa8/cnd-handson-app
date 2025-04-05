@@ -14,7 +14,7 @@ WORKDIR /src
 RUN --mount=target=. \
     --mount=type=cache,target=/go/pkg/mod,sharing=locked \
     --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
-    GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/example .
+    GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/user-service ./cmd/server/main.go
 
 FROM base AS unit-test
 WORKDIR /src
@@ -37,4 +37,4 @@ FROM scratch AS unit-test-coverage
 COPY --from=unit-test /out/cover.out /cover.out
 
 FROM scratch AS bin
-COPY --from=build /out/example /
+COPY --from=build /out/user-service /
