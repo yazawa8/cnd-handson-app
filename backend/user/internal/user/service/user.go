@@ -16,13 +16,13 @@ func RegisterUser(Email string, Password string) error {
 		return err
 	}
 	user := model.User{
-		ID:           uuid.New().String(), // UUIDを生成
-		Name:         "Guest",             // デフォルト値
+		ID:           uuid.New(), // UUIDを生成
+		Name:         "Guest",    // デフォルト値
 		Email:        Email,
 		PasswordHash: HashPassword,
-		RoleID:       "Viwer", // 初期ロール
-		CreatedAt:    time.Now().String(),
-		UpdatedAt:    time.Now().String(),
+		RoleID:       uuid.Nil,
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
 	}
 	return repository.CreateUser(&user)
 }

@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	refresh "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/service"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/service"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/auth"
 	"github.com/gin-gonic/gin"
@@ -47,8 +48,16 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	// JWT トークン発行
-	token, err := auth.GenerateToken(user.ID)
+	// 各種トークンを生成
+	AccessToken, err := auth.GenerateAccessToken(user.ID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return
+	}
+	// internal/refresh/service/refresh.goに処理書いているけどおうだんするのどう？
+
+	RefreshTokenStruct := refresh.SaveRefreshTokenStorage{}
+	RefreshToken, err := auth.GenerateRefreshToken(user.ID, RefreshTokenStruct)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
@@ -56,7 +65,27 @@ func LoginHandler(c *gin.Context) {
 
 	// トークンを返す
 	c.JSON(http.StatusOK, gin.H{
-		"token": token,
-		"user":  gin.H{"id": user.ID, "email": user.Email},
+		"access_token":  AccessToken,
+		"refresh_token": RefreshToken,
+		"user":          gin.H{"id": user.ID, "email": user.Email},
 	})
+}
+
+func ValidateAccessTokenHandler(c *gin.Context) {
+	// Authorization ヘッダーからトークンを取得
+	tokenString, err := auth.ExtractAccessTokenFromHeader(c.GetHeader("Authorization"))
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid Authorization format"})
+		c.Abort()
+		return
+	}
+	// トークンの検証
+	token, err := auth.ValidateAccessToken(tokenString)
+	if err != nil || !token.Valid {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		c.Abort()
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Token is valid"})
 }

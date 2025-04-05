@@ -5,7 +5,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/handler"
+	refreshHandler "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/handler"
+	refreshModel "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/model"
+	userHandler "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/handler"
+	userModel "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/model"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/auth"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/db"
 	"github.com/gin-gonic/gin"
@@ -24,6 +27,8 @@ func main() {
 		runServer()
 	case "migrate":
 		runMigrate()
+	case "reset":
+		resetDB()
 	default:
 		fmt.Println("Unknown command:", command)
 		os.Exit(1)
@@ -31,6 +36,7 @@ func main() {
 }
 
 func runServer() {
+	// init処理
 	err := loadEnv()
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -41,22 +47,26 @@ func runServer() {
 		log.Fatalf("Error connecting to the database: %v", err)
 	}
 
+	// start server
 	r := gin.Default()
-
-	// 認証不要のエンドポイント（サインアップとログイン）
-	r.POST("/user/register", handler.RegisterHandler)
-	r.POST("/user/login", handler.LoginHandler)
-
-	// 認証が必要なエンドポイント
-	authorized := r.Group("/user")
-	authorized.Use(auth.JWTMiddleware()) // ここでミドルウェア適用
-	{
-		// authorized.GET("/profile", handler.ProfileHandler)
-	}
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
+	}
+
+	// not authenticated endpoints
+	r.POST("/auth/register", userHandler.RegisterHandler)
+	r.POST("/auth/login", userHandler.LoginHandler)
+	r.GET("/auth/validate", userHandler.ValidateAccessTokenHandler)
+	r.POST("/auth/refresh", refreshHandler.RefreshTokenHandler)
+
+	// authenticated endpoints
+	authorized := r.Group("/user")
+	authorized.Use(auth.JWTMiddleware()) // ここでミドルウェア適用
+	{
+		// authorized.GET("/profile", handler.ProfileHandler)
+
 	}
 
 	err = r.Run(":" + port)
@@ -71,12 +81,25 @@ func runMigrate() {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
-	err = db.MigrateDB(conn)
+	err = db.MigrateDB(conn, userModel.User{}, refreshModel.RefreshToken{})
 	if err != nil {
 		log.Fatalf("Migration failed: %v", err)
 	}
 
 	log.Println("Migration completed successfully.")
+}
+func resetDB() {
+	conn, err := db.InitDB()
+	if err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
+	}
+
+	err = db.ResetDB(conn, userModel.User{}, refreshModel.RefreshToken{})
+	if err != nil {
+		log.Fatalf("Database reset failed: %v", err)
+	}
+
+	log.Println("Database reset completed successfully.")
 }
 
 func loadEnv() error {
