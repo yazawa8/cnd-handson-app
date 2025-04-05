@@ -81,6 +81,15 @@ curl -X POST http://localhost:8080/auth/login \
            "password": "securepassword"
          }'
 ```
+### ユーザーログアウト
+```bash
+curl -X POST http://localhost:8080/auth/logout \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer <your_access_token>" \
+     -d '{
+           "refresh_token": "<your_refresh_token>"
+         }'
+```
 
 ### アクセストークンの検証
 ```bash

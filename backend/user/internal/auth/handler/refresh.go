@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/service"
+	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/service"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/auth"
 	"github.com/gin-gonic/gin"
 )

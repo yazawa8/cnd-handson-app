@@ -3,8 +3,8 @@ package service
 import (
 	"time"
 
+	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/repository"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/model"
-	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/repository"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/auth"
 	"github.com/google/uuid"
 )
@@ -25,6 +25,16 @@ func RegisterUser(Email string, Password string) error {
 		UpdatedAt:    time.Now(),
 	}
 	return repository.CreateUser(&user)
+}
+
+// Logout処理
+func LogoutUser(userID uuid.UUID) error {
+	// ユーザーのリフレッシュトークンを削除
+	err := repository.DeleteRefreshTokenByUserID(userID)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Auth処理

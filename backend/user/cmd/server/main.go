@@ -5,9 +5,8 @@ import (
 	"log"
 	"os"
 
-	refreshHandler "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/handler"
-	refreshModel "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/model"
-	userHandler "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/handler"
+	authHandler "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/handler"
+	refreshModel "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/model"
 	userModel "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/model"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/auth"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/db"
@@ -56,12 +55,13 @@ func runServer() {
 	}
 
 	// not authenticated endpoints
-	r.POST("/auth/register", userHandler.RegisterHandler)
-	r.POST("/auth/login", userHandler.LoginHandler)
-	r.GET("/auth/validate", userHandler.ValidateAccessTokenHandler)
-	r.POST("/auth/refresh", refreshHandler.RefreshTokenHandler)
+	r.POST("/auth/register", authHandler.RegisterHandler)
+	r.POST("/auth/login", authHandler.LoginHandler)
+	r.GET("/auth/validate", authHandler.ValidateAccessTokenHandler)
+	r.POST("/auth/refresh", authHandler.RefreshTokenHandler)
 
 	// authenticated endpoints
+	r.POST("/auth/logout", auth.JWTMiddleware(), authHandler.LogoutHandler)
 	authorized := r.Group("/user")
 	authorized.Use(auth.JWTMiddleware()) // ここでミドルウェア適用
 	{

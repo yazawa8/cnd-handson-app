@@ -3,8 +3,7 @@ package handler
 import (
 	"net/http"
 
-	refresh "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/service"
-	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/service"
+	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/service"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/auth"
 	"github.com/gin-gonic/gin"
 )
@@ -54,9 +53,8 @@ func LoginHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
 	}
-	// internal/refresh/service/refresh.goに処理書いているけどおうだんするのどう？
 
-	RefreshTokenStruct := refresh.SaveRefreshTokenStorage{}
+	RefreshTokenStruct := service.SaveRefreshTokenStorage{}
 	RefreshToken, err := auth.GenerateRefreshToken(user.ID, RefreshTokenStruct)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
@@ -69,6 +67,33 @@ func LoginHandler(c *gin.Context) {
 		"refresh_token": RefreshToken,
 		"user":          gin.H{"id": user.ID, "email": user.Email},
 	})
+}
+
+func LogoutHandler(c *gin.Context) {
+	// Authorization ヘッダーからトークンを取得
+	tokenString, err := auth.ExtractAccessTokenFromHeader(c.GetHeader("Authorization"))
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid Authorization format"})
+		c.Abort()
+		return
+	}
+
+	// トークンからユーザーIDを取得
+	userID, err := auth.GetUserIDFromToken(tokenString)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		c.Abort()
+		return
+	}
+
+	// ログアウト処理を実行
+	err = service.LogoutUser(userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to logout"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully"})
 }
 
 func ValidateAccessTokenHandler(c *gin.Context) {

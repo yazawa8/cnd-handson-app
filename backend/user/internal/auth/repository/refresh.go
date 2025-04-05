@@ -5,16 +5,15 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/model"
-	refresh_model "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/model"
+	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/model"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/db"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 // SaveRefreshToken ユーザーIDとリフレッシュトークンをデータベースに保存
-func SaveRefreshToken(refreshtoken refresh_model.RefreshToken) error {
-	if err := db.DB.Model(&refresh_model.RefreshToken{}).Create(refreshtoken).Error; err != nil {
+func SaveRefreshToken(refreshtoken model.RefreshToken) error {
+	if err := db.DB.Model(&model.RefreshToken{}).Create(refreshtoken).Error; err != nil {
 		return err
 	}
 	return nil
@@ -49,4 +48,14 @@ func ValidateRefreshToken(refreshToken string) (bool, uuid.UUID, error) {
 	}
 
 	return true, token.UserID, nil
+}
+
+// DeleteRefreshTokenByUserID ユーザーIDに基づいてリフレッシュトークンを削除
+// ユーザーがログアウトしたときに呼び出される
+func DeleteRefreshTokenByUserID(userID uuid.UUID) error {
+	var refreshToken model.RefreshToken
+	if err := db.DB.Where("user_id = ?", userID).Delete(&refreshToken).Error; err != nil {
+		return err
+	}
+	return nil
 }

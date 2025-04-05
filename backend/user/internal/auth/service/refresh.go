@@ -3,8 +3,8 @@ package service
 import (
 	"time"
 
-	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/model"
-	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/refresh/repository"
+	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/model"
+	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/repository"
 	"github.com/google/uuid"
 )
 
