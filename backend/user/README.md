@@ -62,49 +62,38 @@ make
 binにuser-serviceバイナリが作成されます。
 ## Quick Start
 
-### ユーザー登録
+### ユーザー作成
 ```bash
-curl -X POST http://localhost:8080/auth/register \
+curl -X POST http://localhost:8080/user \
      -H "Content-Type: application/json" \
      -d '{
            "email": "test@example.com",
-           "password": "securepassword"
+           "password": "securepassword",
+           "name": "Test"
+         }'
+```
+### ユーザー更新
+```bash
+curl -X PATCH http://localhost:8080/user \
+     -H "Content-Type: application/json" \
+     -d '{
+           "ID": "9e77e5e0-3ac7-4bfa-a730-adf12007d790",
+           "Email": "test@example.co.jp",
+           "RoleID": "0"
          }'
 ```
 
-### ユーザーログイン
+### ユーザ削除
 ```bash
-curl -X POST http://localhost:8080/auth/login \
+curl -X DELETE http://localhost:8080/user \
      -H "Content-Type: application/json" \
-     -d '{
-           "email": "test@example.com",
-           "password": "securepassword"
-         }'
-```
-### ユーザーログアウト
-```bash
-curl -X POST http://localhost:8080/auth/logout \
-     -H "Content-Type: application/json" \
-     -H "Authorization: Bearer <your_access_token>" \
-     -d '{
-           "refresh_token": "<your_refresh_token>"
-         }'
+     -d '{"ID": "9e77e5e0-3ac7-4bfa-a730-adf12007d790"}'
 ```
 
-### アクセストークンの検証
+### ユーザ情報取得
 ```bash
-curl -X GET http://localhost:8080/auth/validate \
-     -H "Content-Type: application/json" \
-     -H "Authorization: Bearer <your_access_token>"
-```
-
-### リフレッシュトークンを使用してアクセストークンを更新
-```bash
-curl -X POST http://localhost:8080/auth/refresh \
-     -H "Content-Type: application/json" \
-     -d '{
-           "refresh_token": "<your_refresh_token>"
-         }'
+curl -X GET http://localhost:8080/user?name=Test \
+     -H "Content-Type: application/json"
 ```
 
 ---

@@ -3,14 +3,15 @@ package main
 import (
 	"fmt"
 	"log"
+	"net"
 	"os"
 
-	authHandler "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/handler"
-	refreshModel "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/auth/model"
-	userModel "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/model"
-	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/auth"
+	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/handler"
+	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/internal/user/model"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/user/pkg/db"
-	"github.com/gin-gonic/gin"
+	userpb "github.com/cloudnativedaysjp/cnd-handson-app/backend/user/proto"
+
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -40,38 +41,31 @@ func runServer() {
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
-
 	_, err = db.InitDB()
 	if err != nil {
 		log.Fatalf("Error connecting to the database: %v", err)
 	}
 
-	// start server
-	r := gin.Default()
-
+	// gRPCサーバーの設定
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "50051"
 	}
-
-	// not authenticated endpoints
-	r.POST("/auth/register", authHandler.RegisterHandler)
-	r.POST("/auth/login", authHandler.LoginHandler)
-	r.GET("/auth/validate", authHandler.ValidateAccessTokenHandler)
-	r.POST("/auth/refresh", authHandler.RefreshTokenHandler)
-
-	// authenticated endpoints
-	r.POST("/auth/logout", auth.JWTMiddleware(), authHandler.LogoutHandler)
-	authorized := r.Group("/user")
-	authorized.Use(auth.JWTMiddleware()) // ここでミドルウェア適用
-	{
-		// authorized.GET("/profile", handler.ProfileHandler)
-
-	}
-
-	err = r.Run(":" + port)
+	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
-		log.Fatalf("Error starting server: %v", err)
+		log.Fatalf("failed to listen: %v", err)
+	}
+
+	// gRPCサーバーの作成
+	grpcServer := grpc.NewServer()
+
+	// gRPCサービスの登録
+	userService := &handler.UserServiceServer{}
+	userpb.RegisterUserServiceServer(grpcServer, userService)
+
+	log.Printf("gRPC server listening on port %s", port)
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
 	}
 }
 
@@ -81,7 +75,7 @@ func runMigrate() {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
-	err = db.MigrateDB(conn, userModel.User{}, refreshModel.RefreshToken{})
+	err = db.MigrateDB(conn, model.User{})
 	if err != nil {
 		log.Fatalf("Migration failed: %v", err)
 	}
@@ -94,7 +88,7 @@ func resetDB() {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
-	err = db.ResetDB(conn, userModel.User{}, refreshModel.RefreshToken{})
+	err = db.ResetDB(conn, model.User{})
 	if err != nil {
 		log.Fatalf("Database reset failed: %v", err)
 	}
