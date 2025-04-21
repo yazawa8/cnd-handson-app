@@ -14,7 +14,6 @@
     - [User](#user-User)
     - [UserResponse](#user-UserResponse)
     - [VerifyPasswordRequest](#user-VerifyPasswordRequest)
-    - [VerifyPasswordResponse](#user-VerifyPasswordResponse)
   
     - [UserService](#user-UserService)
   
@@ -186,21 +185,6 @@
 
 
 
-
-<a name="user-VerifyPasswordResponse"></a>
-
-### VerifyPasswordResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| valid | [bool](#bool) |  |  |
-
-
-
-
-
  
 
  
@@ -220,9 +204,9 @@
 | CreateUser | [CreateUserRequest](#user-CreateUserRequest) | [UserResponse](#user-UserResponse) | ユーザーの作成 |
 | UpdateUser | [UpdateUserRequest](#user-UpdateUserRequest) | [UserResponse](#user-UserResponse) | ユーザーの更新 |
 | GetUser | [GetUserRequest](#user-GetUserRequest) | [UserResponse](#user-UserResponse) | ユーザーの取得 |
+| VerifyPassword | [VerifyPasswordRequest](#user-VerifyPasswordRequest) | [UserResponse](#user-UserResponse) | パスワードの検証 |
 | ListUsers | [ListUsersRequest](#user-ListUsersRequest) | [ListUsersResponse](#user-ListUsersResponse) | ユーザー一覧の取得 |
 | DeleteUser | [DeleteUserRequest](#user-DeleteUserRequest) | [DeleteUserResponse](#user-DeleteUserResponse) | ユーザーの削除 |
-| VerifyPassword | [VerifyPasswordRequest](#user-VerifyPasswordRequest) | [VerifyPasswordResponse](#user-VerifyPasswordResponse) | パスワードの検証 |
 
  
 

@@ -142,5 +142,5 @@ func runVerifyPassword(ctx context.Context, client userpb.UserServiceClient, ema
 	if err != nil {
 		log.Fatalf("パスワード検証失敗: %v", err)
 	}
-	fmt.Printf("Password valid: %v\n", resp.Valid)
+	fmt.Printf("Password valid: %v\n", resp.User)
 }

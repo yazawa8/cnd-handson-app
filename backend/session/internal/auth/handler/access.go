@@ -7,6 +7,8 @@ import (
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/session/internal/auth/service"
 	sessionpb "github.com/cloudnativedaysjp/cnd-handson-app/backend/session/proto" // your generated proto package
 	"github.com/google/uuid"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // AccessTokenServiceHandler アクセストークンサービスのハンドラー
@@ -18,7 +20,11 @@ type AccessTokenServiceHandler struct {
 // GenerateAccessToken アクセストークン生成
 func (h *AccessTokenServiceHandler) GenerateAccessToken(ctx context.Context, req *sessionpb.GenerateAccessTokenRequest) (*sessionpb.AccessTokenResponse, error) {
 	// ユーザーIDを取得し、アクセストークンを生成（例: ランダムなトークン生成）
-	accessToken, expiresAt, err := service.GenerateAccessToken(uuid.MustParse(req.UserId))
+	userId, err := uuid.Parse(req.GetUserId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid user_id: %v", err)
+	}
+	accessToken, expiresAt, err := service.GenerateAccessToken(userId)
 	if err != nil {
 		return nil, err
 	}

@@ -218,10 +218,6 @@
                   <a href="#user.VerifyPasswordRequest"><span class="badge">M</span>VerifyPasswordRequest</a>
                 </li>
               
-                <li>
-                  <a href="#user.VerifyPasswordResponse"><span class="badge">M</span>VerifyPasswordResponse</a>
-                </li>
-              
               
               
               
@@ -558,30 +554,6 @@
 
         
       
-        <h3 id="user.VerifyPasswordResponse">VerifyPasswordResponse</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>valid</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
 
       
 
@@ -618,6 +590,13 @@
               </tr>
             
               <tr>
+                <td>VerifyPassword</td>
+                <td><a href="#user.VerifyPasswordRequest">VerifyPasswordRequest</a></td>
+                <td><a href="#user.UserResponse">UserResponse</a></td>
+                <td><p>パスワードの検証</p></td>
+              </tr>
+            
+              <tr>
                 <td>ListUsers</td>
                 <td><a href="#user.ListUsersRequest">ListUsersRequest</a></td>
                 <td><a href="#user.ListUsersResponse">ListUsersResponse</a></td>
@@ -629,13 +608,6 @@
                 <td><a href="#user.DeleteUserRequest">DeleteUserRequest</a></td>
                 <td><a href="#user.DeleteUserResponse">DeleteUserResponse</a></td>
                 <td><p>ユーザーの削除</p></td>
-              </tr>
-            
-              <tr>
-                <td>VerifyPassword</td>
-                <td><a href="#user.VerifyPasswordRequest">VerifyPasswordRequest</a></td>
-                <td><a href="#user.VerifyPasswordResponse">VerifyPasswordResponse</a></td>
-                <td><p>パスワードの検証</p></td>
               </tr>
             
           </tbody>

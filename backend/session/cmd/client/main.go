@@ -19,7 +19,7 @@ func main() {
 		fmt.Println("  generate-access-token <user-id>")
 		fmt.Println("  validate-access-token <access-token>")
 		fmt.Println("  generate-refresh-token <user-id>")
-		fmt.Println("  revoke-refresh-token <user-id><refresh-token>")
+		fmt.Println("  revoke-refresh-token <refresh-token> <user-id>")
 		fmt.Println("  validate-refresh-token <refresh-token> <user-id>")
 		os.Exit(1)
 	}

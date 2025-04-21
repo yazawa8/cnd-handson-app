@@ -131,16 +131,23 @@ func (s *UserServiceServer) DeleteUser(ctx context.Context, req *userpb.DeleteUs
 }
 
 // vaはユーザーの認証を行うgRPCメソッド
-func (s *UserServiceServer) VerifyPassword(ctx context.Context, req *userpb.VerifyPasswordRequest) (*userpb.VerifyPasswordResponse, error) {
+func (s *UserServiceServer) VerifyPassword(ctx context.Context, req *userpb.VerifyPasswordRequest) (*userpb.UserResponse, error) {
 
 	// ユーザー認証処理（サービス層に委譲）
-	valid, err := service.VerifyPassword(req.GetEmail(), req.GetPassword())
+	userModel, err := service.VerifyPassword(req.GetEmail(), req.GetPassword())
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to verify password: %v", err)
 	}
 
 	// ユーザーを返却
-	return &userpb.VerifyPasswordResponse{
-		Valid: valid,
+	return &userpb.UserResponse{
+		User: &userpb.User{
+			Id:        userModel.ID.String(),
+			Name:      userModel.Name,
+			Email:     userModel.Email,
+			RoleId:    userModel.RoleID.String(),
+			CreatedAt: timestamppb.New(userModel.CreatedAt),
+			UpdatedAt: timestamppb.New(userModel.UpdatedAt),
+		},
 	}, nil
 }

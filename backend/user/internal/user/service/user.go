@@ -87,19 +87,19 @@ func DeleteUser(userID uuid.UUID) error {
 	return repository.DeleteUser(userID)
 }
 
-func VerifyPassword(email string, password string) (bool, error) {
+func VerifyPassword(email string, password string) (*model.User, error) {
 	user, err := repository.GetUserByEmail(email)
 	// ユーザーが存在しない場合はエラーを返す
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 	if user == nil {
-		return false, nil
+		return nil, nil
 	}
 
 	// パスワードを検証
 	if !auth.ComparePassword(user.PasswordHash, password) {
-		return false, nil
+		return nil, nil
 	}
-	return true, nil
+	return user, nil
 }
