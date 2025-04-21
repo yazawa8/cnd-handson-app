@@ -6,13 +6,11 @@ CloudNative Days Handson用のsessionサービスのサンプルアプリケー�
 
 ## Features
 
-- ユーザーログイン
 - アクセストークンの発行
 - アクセストークンの検証
 - リフレッシュトークンの発行
 - リフレッシュトークンの検証
 - リフレッシュトークンの無効化（logout）
-- リフレッシュトークンを使用したアクセストークンの更新
 
 ---
 
@@ -57,33 +55,88 @@ go run cmd/server/main.go migrate
 ```bash
 go run cmd/server/main.go serve
 ```
----
 ## AppのBuild
 ```bash
 make
 ```
 binにsession-serviceバイナリが作成されます。
 ## Quick Start
+### Access Tokenの作成
+#### コマンド
+```bash
+./bin/session-client generate-access-token <user_id>
+```
+#### 例
+```bash
+$ ./bin/session-client generate-access-token b8228ab4-ff39-4568-b8f9-2eb1cb3cd59d
+AccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMzYwNzAsImlkIjoiYjgyMjhhYjQtZmYzOS00NTY4LWI4ZjktMmViMWNiM2NkNTlkIn0.4uahAE_pPug8jEEnKRAQC3hysWAfl2nTX_rKokl7kB8
+ExpiresAt: 1745236070
+```
+### Access Tokenの検証
+#### コマンド
+```bash
+./bin/session-client verify-access-token <access_token>
+```
+#### 例
+```bash
+./bin/session-client validate-access-token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMzYwNzAsImlkIjoiYjgyMjhhYjQtZmYzOS00NTY4LWI4ZjktMmViMWNiM2NkNTlkIn0.4uahAE_pPug8jEEnKRAQC3hysWAfl2nTX_rKokl7kB8
+Valid: true
+UserID: b8228ab4-ff39-4568-b8f9-2eb1cb3cd59d
+Error: 
+```
+### Refresh Tokenの作成
+#### コマンド
+```bash
+./bin/session-client generate-refresh-token <user_id>
+```
 
----
+#### 例
+```bash
+$ ./bin/session-client generate-refresh-token b8228ab4-ff39-4568-b8f9-2eb1cb3cd59d
+RefreshToken: t3sBwEzVj7d9JJFY-3fbZ-Eh8psi0MfQd0xVVGDLpTQ=
+ExpiresAt: 1747827790
+```
+### Refresh Tokenの検証
+#### コマンド
+```bash
+./bin/session-client verify-refresh-token <refresh_token> <user_id>
+```
+#### 例
+```bash
+$ ./bin/session-client validate-refresh-token t3sBwEzVj7d9JJFY-3fbZ-Eh8psi0MfQd0xVVGDLpTQ= b8228ab4-ff39-4568-b8f9-2eb1cb3cd59d
+Valid: true
+```
+### Refresh Tokenの無効化
+#### コマンド
+```bash
+./bin/session-client revoke-refresh-token <refresh-token> <user-id>
+```
+
+#### 例
+```bash
+$ ./bin/session-client revoke-refresh-token t3sBwEzVj7d9JJFY-3fbZ-Eh8psi0MfQd0xVVGDLpTQ= b8228ab4-ff39-4568-b8f9-2eb1cb3cd59d
+Success: true
+```
 
 
----
+## gRPC Documentation
+
+gRPCの詳細な仕様は、[gRPC仕様書](proto/READEME.md)を参照してください。
+
 
 ## Project Structure
 
 ```
 .
 ├── cmd/                # エントリーポイント
-│   └── server/
-│       └── main.go     # メインアプリケーション
+│   ├── client/         # clientのエントリーポイント
+│   └── server/         # serverのエントリーポイント
 ├── internal/           # 内部ロジック
-│   ├── session/           # ユーザー関連
-│   └── refresh/        # リフレッシュトークン関連
+│   ├── auth/           # トークン関連
 ├── pkg/                # 再利用可能なパッケージ
 │   ├── auth/           # 認証関連
 │   └── db/             # データベース関連
-├── openapi/            # OpenAPI仕様書
+├── proto/              # proto関連
 ├── .devcontainer/      # DevContainer設定
 ├── Dockerfile          # Dockerビルド設定
 ├── docker-compose.yml  # Docker Compose設定

@@ -131,11 +131,10 @@ gRPCの詳細な仕様は、[gRPC仕様書](proto/READEME.md)を参照してく�
 ```
 .
 ├── cmd/                # エントリーポイント
-│   └── server/
-│       └── main.go     # メインアプリケーション
+│   ├── client/         # clientのエントリーポイント
+│   └── server/         # serverのエントリーポイント
 ├── internal/           # 内部ロジック
-│   ├── user/           # ユーザー関連
-│   └── refresh/        # リフレッシュトークン関連
+│   └── user/           # ユーザー関連
 ├── pkg/                # 再利用可能なパッケージ
 │   ├── auth/           # 認証関連
 │   └── db/             # データベース関連
