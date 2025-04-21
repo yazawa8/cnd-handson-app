@@ -19,14 +19,14 @@ service UserService {
   // ユーザーの取得
   rpc GetUser(GetUserRequest) returns (UserResponse);
 
+  // パスワードの検証
+  rpc VerifyPassword(VerifyPasswordRequest) returns (UserResponse);
+
   // ユーザー一覧の取得
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
 
   // ユーザーの削除
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
-
-  // パスワードの検証
-  rpc VerifyPassword(VerifyPasswordRequest) returns (VerifyPasswordResponse);
 }
 
 // ================================
@@ -62,6 +62,12 @@ message ListUsersResponse {
   repeated User users = 1;
 }
 
+// --- VerifyPassword ---
+message VerifyPasswordRequest {
+  string email = 1;
+  string password = 2;
+}
+
 // --- User ---
 message User {
   string id = 1;
@@ -86,12 +92,3 @@ message DeleteUserResponse {
   bool success = 1;
 }
 
-// --- VerifyPassword ---
-message VerifyPasswordRequest {
-  string email = 1;
-  string password = 2;
-}
-
-message VerifyPasswordResponse {
-  bool valid = 1;
-}

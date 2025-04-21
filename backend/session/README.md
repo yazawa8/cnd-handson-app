@@ -67,17 +67,6 @@ binにsession-serviceバイナリが作成されます。
 
 ---
 
-## API Documentation
-
-APIの詳細な仕様は、[OpenAPI仕様書](openapi/openapi.yaml)を参照してください。Redocを使用してブラウザで確認することもできます。
-
-### Redocを使用する場合
-```bash
-cd openapi
-make build
-make run
-```
-ブラウザで `http://localhost:8080` にアクセスしてください。
 
 ---
 
