@@ -1,12 +1,12 @@
-name: Lint
+name: Lint and Format
 
 on:
   push:
     branches-ignore: [ main ]
 
 jobs:
-  typescript-lint:
-    name: TypeScript Lint
+  typescript-lint-format:
+    name: TypeScript lint and format
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,8 +31,8 @@ jobs:
         working-directory: ./${{ matrix.service }}
         run: pnpm format
   
-  go-lint:
-    name: Go Lint
+  go-lint-format:
+    name: Go lint and format
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -63,21 +63,19 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.24'
-          cache-dependency-path: ${{ matrix.path }}/go.sum
-
+          cache-dependency-path: ./${{ matrix.path }}/go.sum
+          
       - name: Lint
         uses: golangci/golangci-lint-action@v7
         with:
           version: v2.0
-          working-directory: ${{ matrix.path }}
-      
-      # TODO: add format check
-      # - name: Install golangci-lint
-      #   run: |
-      #     go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.1.5
-      
-      # - name: Run lint and format check
-      #   working-directory: ${{ matrix.path }}
-      #   run: |
-      #     golangci-lint run ./...
-      #     golangci-lint fmt --check ./...
+          working-directory: ./${{ matrix.path }}
+
+      - name: Format
+        working-directory: ./${{ matrix.path }}
+        run: |
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "Code is not formatted with gofmt:"
+            gofmt -d .
+            exit 1
+          fi

@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # service: [frontend, bff]
-        service: [bff]
+        service: [frontend, bff]
 
     steps:
       - name: Checkout code
