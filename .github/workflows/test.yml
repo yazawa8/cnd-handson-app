@@ -1,0 +1,71 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  typescript-test:
+    name: TypeScript Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # service: [frontend, bff]
+        service: [bff]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and PNPM
+        uses: ./.github/actions/setup-node
+      
+      - name: Install dependencies
+        working-directory: ${{ matrix.service }}
+        run: pnpm install
+      
+      - name: Test
+        working-directory: ${{ matrix.service }}
+        run: pnpm test
+
+  go-test:
+    name: Go Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [project, user, session, board, column, role, tag, task]
+        include:
+          - service: project
+            path: backend/project
+          - service: user
+            path: backend/user
+          - service: session
+            path: backend/session
+          - service: board
+            path: backend/board
+          - service: column
+            path: backend/column
+          - service: role
+            path: backend/role
+          - service: tag
+            path: backend/tag
+          - service: task
+            path: backend/task
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+          cache-dependency-path: ${{ matrix.path }}/go.sum
+
+      - name: Install dependencies
+        working-directory: ./${{ matrix.path }}
+        run: go mod download
+      
+      - name: Test
+        working-directory: ./${{ matrix.path }}
+        run: go test ./... -v
