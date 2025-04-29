@@ -16,9 +16,6 @@ type ProjectRepository interface {
 }
 
 // DefaultProjectRepository は標準のプロジェクトリポジトリインスタンス
-var DefaultProjectRepository ProjectRepository = NewProjectRepository()
+var DefaultProjectRepository ProjectRepository
 
-// NewProjectRepository は新しいプロジェクトリポジトリを作成する
-func NewProjectRepository() ProjectRepository {
-	return &projectRepository{}
-}
+// 注: NewProjectRepository関数の実装はproject.goファイルに移動しました
