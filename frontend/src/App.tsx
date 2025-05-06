@@ -5,11 +5,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import BoardList from './components/BoardList';
 import Borad from './components/Borad';
 import TaskModal from './components/TaskModal';
+import Header from './components/Header';
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<BoardList />} />
           <Route path="/boards/:id" element={<Borad />} />
