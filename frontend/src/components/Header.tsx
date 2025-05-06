@@ -1,4 +1,4 @@
-// src/components/Header.tsx
+
 import React, { useEffect } from 'react';
 import {
   AppBar,
@@ -23,10 +23,8 @@ const Header: React.FC = () => {
   const projects = useSelector((state: RootState) => state.projects.list);
   const selectedId = useSelector((state: RootState) => state.projects.selectedId);
 
-  // ── 例: マウント時に API からプロジェクト一覧をフェッチしてセットする ──
+
   useEffect(() => {
-    // fetch('/api/projects')... などで取得
-    // 仮データ例:
     const dummy: Project[] = [
       { id: 'proj-1', name: 'Project Alpha' },
       { id: 'proj-2', name: 'Project Beta' },
@@ -38,21 +36,18 @@ const Header: React.FC = () => {
   const handleProjectChange = (e: React.ChangeEvent<{ value: unknown }>) => {
     const id = e.target.value as string;
     dispatch(setSelectedProject(id));
-    // 選択後に該当プロジェクトのボード画面へ遷移
     navigate('/boards');
   };
 
   return (
     <AppBar position="static">
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        {/* 左側：ロゴ／タイトル */}
         <Box
           sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           onClick={() => navigate('/')}
         >
           <Typography variant="h6">My Kanban App</Typography>
 
-            {/* 中央：プロジェクト選択セレクト */}
             <FormControl variant="standard" sx={{ minWidth: 200, marginLeft: 4 }}>
             <InputLabel id="project-select-label" sx={{ color: '#fff' }}>
                 Project
@@ -76,7 +71,6 @@ const Header: React.FC = () => {
             </Select>
             </FormControl>
         </Box>
-        {/* 右側：ナビゲーション */}
         <Box>
           <Button color="inherit" onClick={() => navigate('/')}>
             Boards

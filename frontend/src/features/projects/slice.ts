@@ -7,7 +7,7 @@ interface ProjectsState {
 }
 
 const initialState: ProjectsState = {
-  list: [],        // API 等でフェッチしてセットしておく
+  list: [],
   selectedId: '',
 };
 
