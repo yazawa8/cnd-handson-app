@@ -20,16 +20,18 @@ jobs:
         uses: ./.github/actions/setup-node
       
       - name: Install dependencies
-        working-directory: ./${{ matrix.service }}
-        run: pnpm install
+        run: |
+          # Install root dependencies for Biome
+          pnpm install
+          # Install service dependencies
+          cd ./${{ matrix.service }}
+          pnpm install
       
-      - name: Lint
-        working-directory: ./${{ matrix.service }}
-        run: pnpm lint
+      - name: Lint with Biome
+        run: npx @biomejs/biome lint ./${{ matrix.service }}/src/
       
-      - name: Format
-        working-directory: ./${{ matrix.service }}
-        run: pnpm format
+      - name: Format check with Biome
+        run: npx @biomejs/biome format ./${{ matrix.service }}/src/ --write=false --verbose
   
   go-lint-format:
     name: Go lint and format
