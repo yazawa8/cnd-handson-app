@@ -8,6 +8,14 @@ jobs:
   docker-build-push:
     name: Build and Push Docker Images
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - name: frontend
+            context: ./frontend
+          - name: bff
+            context: ./bff
+          # TODO: バックエンドサービス追加
     
     steps:
       - name: Checkout code
@@ -23,16 +31,8 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Build and push Frontend Docker image
+      - name: Build and push ${{ matrix.service.name }} Docker image
         uses: ./.github/actions/docker-build-push
         with:
-          context: ./frontend
-          image-name: frontend
-      
-      - name: Build and push BFF Docker image
-        uses: ./.github/actions/docker-build-push
-        with:
-          context: ./bff
-          image-name: bff
-
-      # TODO: Add steps to build and push backend services
+          context: ${{ matrix.service.context }}
+          image-name: ${{ matrix.service.name }}
