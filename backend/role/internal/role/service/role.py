@@ -37,7 +37,7 @@ class RoleService:
         if name is "":
             raise ValueError("Name cannot be empty")
         
-        role = self.repository.find_by_id(role_id)
+        role = self.repository.get_by_id(role_id)
         if role is not None: 
             role.name = name
         if description is not None:
@@ -51,8 +51,13 @@ class RoleService:
         Args:
             role_id: RoleのID
         """
+        role = self.repository.get_by_id(role_id)
+        if role is None:
+            raise ValueError("Role not found")
+        if role.name == "admin":
+            raise ValueError("Cannot delete admin role")
 
-        return self.repository.delete(role_id)
+        return self.repository.delete(role)
 
     def list(self, page: int, page_size: int)-> Optional[list[RoleModel]]:
         """Roleの一覧取得
