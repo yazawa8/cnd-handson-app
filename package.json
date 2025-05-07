@@ -1,0 +1,20 @@
+{
+  "name": "cnd-handson-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "bff"
+  ],
+  "scripts": {
+    "lint": "biome lint . --write",
+    "format": "biome format . --write",
+    "lint:frontend": "biome lint frontend/src/ --write",
+    "format:frontend": "biome format frontend/src/ --write",
+    "lint:bff": "biome lint bff/ --write",
+    "format:bff": "biome format bff/ --write"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4"
+  }
+}
