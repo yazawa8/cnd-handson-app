@@ -32,13 +32,19 @@ const projectsSlice = createSlice({
   initialState,
   reducers: {
     setProjects(state, action: PayloadAction<Project[]>) {
-      state.list = action.payload;
+      state.projects = action.payload;
     },
     setSelectedProject(state, action: PayloadAction<string>) {
       state.selectedId = action.payload;
     },
+    deleteProject(state, action: PayloadAction<string>) {
+      state.projects = state.projects.filter((project) => project.id !== action.payload);
+      if (state.selectedId === action.payload) {
+        state.selectedId = '';
+      }
+    }
   },
 });
 
-export const { setProjects, setSelectedProject } = projectsSlice.actions;
+export const { setProjects, setSelectedProject, deleteProject } = projectsSlice.actions;
 export default projectsSlice.reducer;
