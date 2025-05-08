@@ -78,8 +78,13 @@ const Header: React.FC = () => {
           <Button color="inherit" onClick={() => navigate('/')}>
             Boards
           </Button>
-          <Button color="inherit" onClick={() => navigate('/settings')}>
-            Settings
+          <Button
+            color="inherit"
+            onClick={() => {
+              navigate('/login');
+            }}
+          >
+            Logout
           </Button>
         </Box>
       </Toolbar>
