@@ -2,12 +2,28 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Project } from './types';
 
 interface ProjectsState {
-  list: Project[];
+  projects: Project[];
   selectedId: string | '';
 }
 
 const initialState: ProjectsState = {
-  list: [],
+  projects: [
+    {
+      id: 'proj-1',
+      name: 'Project Alpha',
+      description: 'Description for Project Alpha',
+    },
+    {
+      id: 'proj-2',
+      name: 'Project Beta',
+      description: 'Description for Project Beta',
+    },
+    {
+      id: 'proj-3',
+      name: 'Project Gamma',
+      description: 'Description for Project Gamma',
+    },
+  ],
   selectedId: '',
 };
 

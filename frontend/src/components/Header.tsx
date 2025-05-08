@@ -14,27 +14,17 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { setProjects, setSelectedProject } from '../features/projects/slice';
-import { Project } from '../features/projects/types';
+import { setSelectedProject } from '../features/projects/slice';
 
 const Header: React.FC = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const projects = useSelector((state: RootState) => state.projects.list);
+  const projects = useSelector((state: RootState) => state.projects.projects);
   const selectedId = useSelector((state: RootState) => state.projects.selectedId);
   const isLoggedIn = useSelector((state: RootState) => state.session.isLoggedIn);
 
   if (!isLoggedIn) return null;
-
-  useEffect(() => {
-    const dummy: Project[] = [
-      { id: 'proj-1', name: 'Project Alpha' },
-      { id: 'proj-2', name: 'Project Beta' },
-      { id: 'proj-3', name: 'Project Gamma' },
-    ];
-    dispatch(setProjects(dummy));
-  }, [dispatch]);
 
   const handleProjectChange = (e: React.ChangeEvent<{ value: unknown }>) => {
     const id = e.target.value as string;
@@ -76,6 +66,9 @@ const Header: React.FC = () => {
         </Box>
         <Box>
           <Button color="inherit" onClick={() => navigate('/')}>
+            Projects
+          </Button>
+          <Button color="inherit" onClick={() => navigate('/boards')}>
             Boards
           </Button>
           <Button

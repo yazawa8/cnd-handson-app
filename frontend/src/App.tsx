@@ -8,6 +8,7 @@ import TaskModal from './components/TaskModal';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import PrivateLayout from './components/PrivateLayout';
+import ProjectList from './components/ProjectList';
 
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route element={<PrivateLayout />}>
-            <Route path="/" element={ <BoardList />} />
+            <Route path="/boards" element={ <BoardList />} />
+            <Route path="/" element={<ProjectList />} />
             <Route path="/boards/:id" element={<Borad />} />
             <Route path="/tasks/:id" element={<TaskModal open={false} task={null} onClose={function (): void {
               throw new Error('Function not implemented.');
