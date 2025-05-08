@@ -18,11 +18,14 @@ import { setProjects, setSelectedProject } from '../features/projects/slice';
 import { Project } from '../features/projects/types';
 
 const Header: React.FC = () => {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const projects = useSelector((state: RootState) => state.projects.list);
   const selectedId = useSelector((state: RootState) => state.projects.selectedId);
+  const isLoggedIn = useSelector((state: RootState) => state.session.isLoggedIn);
 
+  if (!isLoggedIn) return null;
 
   useEffect(() => {
     const dummy: Project[] = [
