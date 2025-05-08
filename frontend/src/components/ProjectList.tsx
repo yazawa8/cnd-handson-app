@@ -1,43 +1,24 @@
 // src/components/ProjectList.tsx
-import React, { useState, MouseEvent } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { Grid, Card, CardContent, Typography, CardActionArea, Box, IconButton, Menu, MenuItem } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import { setSelectedProject } from '../features/projects/slice';
 import { deleteProject } from '../features/projects/slice';
+import MoreMenu, { MoreMenuOption } from './MoreMenu';
 
 const ProjectList: React.FC = () => {
   const projects = useSelector((state: RootState) => state.projects.projects);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [menuProjectId, setMenuProjectId] = useState<string>('');
-
-  const openMenu = (e: MouseEvent<HTMLElement>, projectId: string) => {
-    e.stopPropagation(); // カードクリックと競合しないように
-    setAnchorEl(e.currentTarget);
-    setMenuProjectId(projectId);
-  };
-
-  const closeMenu = () => {
-    setAnchorEl(null);
-    setMenuProjectId('');
-  };
-
-  const handleEdit = () => {
-    // 編集時にはモーダルなど開く or 画面遷移
-    closeMenu();
-  };
-
-  const handleDelete = () => {
-    if (window.confirm('本当に削除しますか？')) {
-        dispatch(deleteProject(menuProjectId));
-    }
-    closeMenu();
-  };
+  const options: MoreMenuOption<string>[] = [
+      { label: '編集', onClick: (id) => navigate(`/projects/edit/${id}`) },
+      { label: '削除', onClick: (id) => {
+        if (window.confirm('本当に削除しますか？')) {
+          dispatch(deleteProject(id));
+       }}},];
 
   const handleClickCard = (projectId: string) => {
     dispatch(setSelectedProject(projectId));
@@ -63,28 +44,13 @@ const ProjectList: React.FC = () => {
                       </Typography>
                     )}
                   </Box>
-                  <IconButton
-                    edge="end"
-                    aria-label="settings"
-                    onClick={(e) => openMenu(e, proj.id)}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
+                  <MoreMenu id={proj.id} options={options} />
                 </CardContent>
               </CardActionArea>
             </Card>
           </Grid>
         ))}
       </Grid>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={closeMenu}
-      >
-        <MenuItem onClick={handleEdit}>編集</MenuItem>
-        <MenuItem onClick={handleDelete}>削除</MenuItem>
-      </Menu>
     </Box>
   );
 };
