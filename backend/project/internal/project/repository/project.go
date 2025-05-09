@@ -7,7 +7,7 @@ import (
 )
 
 // projectRepository はProjectRepositoryインターフェースの実装
-type projectRepository struct{
+type projectRepository struct {
 	db db.Database
 }
 

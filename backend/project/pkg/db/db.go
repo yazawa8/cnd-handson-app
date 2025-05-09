@@ -63,10 +63,10 @@ func initializeDB() {
 
 	// .envファイルを読み込む
 	loadEnvFile()
-	
+
 	// 初回接続の試行
 	connectDB()
-	
+
 	// 初期化状態を更新
 	initialized = true
 }
@@ -79,7 +79,7 @@ func loadEnvFile() {
 		log.Printf("Failed to get current directory: %v", err)
 		return
 	}
-	
+
 	// 最大3階層まで遡ってenvファイルを探す
 	for i := 0; i < 3; i++ {
 		envPath := filepath.Join(dir, ".env")
@@ -92,7 +92,7 @@ func loadEnvFile() {
 		// 親ディレクトリへ
 		dir = filepath.Dir(dir)
 	}
-	
+
 	log.Println("Warning: .env file not found")
 }
 
@@ -104,7 +104,7 @@ func InitPostgresDB() (*gorm.DB, error) {
 	dbname := os.Getenv("DB_DB")
 	port := os.Getenv("DB_PORT")
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", host, user, password, dbname, port)
-	
+
 	log.Println("Connecting to PostgreSQL database...")
 	return gorm.Open(postgres.Open(dsn), &gorm.Config{})
 }
@@ -117,10 +117,10 @@ func connectDB() {
 	password := getEnvOrDefault("DB_PASSWORD", "postgres")
 	dbname := getEnvOrDefault("DB_DB", "postgres")
 	port := getEnvOrDefault("DB_PORT", "5432")
-	
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", 
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
 		host, user, password, dbname, port)
-	
+
 	log.Println("Connecting to PostgreSQL database...")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -155,7 +155,7 @@ func InitDB() (*gorm.DB, error) {
 
 	// 接続状態を再確認
 	if DB == nil || !isDBConnected() {
-		return nil, fmt.Errorf("Failed to reconnect to the database")
+		return nil, fmt.Errorf("failed to reconnect to the database")
 	}
 
 	return DB, nil

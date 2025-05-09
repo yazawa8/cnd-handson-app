@@ -59,7 +59,7 @@ func (s *projectService) GetProject(projectID uuid.UUID) (*model.Project, error)
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "project not found: %v", err)
 	}
-	
+
 	return project, nil
 }
 
@@ -73,7 +73,7 @@ func (s *projectService) ListProjectsByOwner(ownerID uuid.UUID) ([]*model.Projec
 	if ownerID == uuid.Nil {
 		return nil, status.Errorf(codes.InvalidArgument, "owner ID cannot be empty")
 	}
-	
+
 	return s.repo.GetProjectsByOwnerID(ownerID)
 }
 
@@ -83,13 +83,13 @@ func (s *projectService) UpdateProject(projectID uuid.UUID, name *string, descri
 	if projectID == uuid.Nil {
 		return nil, status.Errorf(codes.InvalidArgument, "project ID cannot be empty")
 	}
-	
+
 	// 現在のプロジェクト情報を取得
 	project, err := s.repo.GetProjectByID(projectID)
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "project not found: %v", err)
 	}
-	
+
 	// 更新するフィールドの処理
 	if name != nil {
 		if *name == "" {
@@ -97,14 +97,14 @@ func (s *projectService) UpdateProject(projectID uuid.UUID, name *string, descri
 		}
 		project.Name = *name
 	}
-	
+
 	if description != nil {
 		project.Description = *description
 	}
-	
+
 	// 更新日時を設定
 	project.UpdatedAt = time.Now()
-	
+
 	// データベースを更新
 	return s.repo.UpdateProject(project)
 }
@@ -115,13 +115,13 @@ func (s *projectService) DeleteProject(projectID uuid.UUID) error {
 	if projectID == uuid.Nil {
 		return status.Errorf(codes.InvalidArgument, "project ID cannot be empty")
 	}
-	
+
 	// プロジェクトの存在確認
 	_, err := s.repo.GetProjectByID(projectID)
 	if err != nil {
 		return status.Errorf(codes.NotFound, "project not found: %v", err)
 	}
-	
+
 	// プロジェクト削除
 	return s.repo.DeleteProject(projectID)
 }

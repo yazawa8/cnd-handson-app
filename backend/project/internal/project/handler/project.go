@@ -80,6 +80,9 @@ func (s *ProjectServiceServer) ListProjects(ctx context.Context, req *projectpb.
 			return nil, status.Errorf(codes.InvalidArgument, "invalid owner_id: %v", err)
 		}
 		projects, err = service.ListProjectsByOwner(ownerID)
+		if err != nil {
+			return nil, status.Errorf(codes.Internal, "failed to list projects by owner: %v", err)
+		}
 	} else {
 		// オーナーIDが指定されていない場合は、すべてのプロジェクトを取得
 		projects, err = service.ListProjects()

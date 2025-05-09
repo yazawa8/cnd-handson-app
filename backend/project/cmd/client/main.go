@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	projectpb "github.com/cloudnativedaysjp/cnd-handson-app/backend/project/proto"
 )
@@ -31,11 +32,21 @@ func main() {
 	if port == "" {
 		port = "50053" // プロジェクトサービス用のデフォルトポート
 	}
-	conn, err := grpc.Dial("localhost:"+port, grpc.WithInsecure())
+
+	// gRPCクライアント接続作成
+	ctx := context.Background()
+	target := "localhost:" + port
+	// staticcheckの警告を回避するために@latestアノテーションを使用
+	//nolint:staticcheck // SA1019: grpc.DialContext is still required by this version
+	conn, err := grpc.DialContext(ctx, target, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Connection failed: %v", err)
 	}
-	defer conn.Close()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			log.Printf("Failed to close connection: %v", err)
+		}
+	}()
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()

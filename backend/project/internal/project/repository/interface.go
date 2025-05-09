@@ -17,5 +17,3 @@ type ProjectRepository interface {
 
 // DefaultProjectRepository は標準のプロジェクトリポジトリインスタンス
 var DefaultProjectRepository ProjectRepository
-
-// 注: NewProjectRepository関数の実装はproject.goファイルに移動しました
