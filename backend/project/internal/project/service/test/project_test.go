@@ -15,7 +15,10 @@ import (
 
 func init() {
 	// テスト実行中はDB接続をスキップする
-	os.Setenv("DB_SKIP_CONNECT", "true")
+	if err := os.Setenv("DB_SKIP_CONNECT", "true"); err != nil {
+		// テストの初期化中なので、panicを使用するのが適切
+		panic("Failed to set environment variable: " + err.Error())
+	}
 }
 
 // テスト用プロジェクトデータの作成

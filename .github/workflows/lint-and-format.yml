@@ -1,0 +1,117 @@
+name: Lint and Format
+
+on:
+  push:
+    branches-ignore: [ main ]
+
+env:
+  GO_VERSION: 1.24.3
+  GOLANGCI_LINT_VERSION: v2.1
+  PYTHON_VERSION: 3.12
+
+jobs:
+  typescript-lint-format:
+    name: TypeScript lint and format
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [frontend, bff]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js and PNPM
+        uses: ./.github/actions/setup-node
+      
+      - name: Install dependencies
+        run: |
+          # Install root dependencies for Biome
+          pnpm install
+          # Install service dependencies
+          cd ./${{ matrix.service }}
+          pnpm install
+      
+      - name: Lint with Biome
+        run: npx @biomejs/biome lint ./${{ matrix.service }}/src/
+      
+      - name: Format check with Biome
+        run: npx @biomejs/biome format ./${{ matrix.service }}/src/ --write=false --verbose
+  
+  go-lint-format:
+    name: Go lint and format
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+          service: [project, user, session, board, task]
+          include:
+            - service: project
+              path: backend/project
+            - service: user
+              path: backend/user
+            - service: session
+              path: backend/session
+            - service: board
+              path: backend/board
+            - service: task
+              path: backend/task
+  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: ./${{ matrix.path }}/go.sum
+          
+      - name: Lint
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: ${{ env.GOLANGCI_LINT_VERSION }}
+          working-directory: ./${{ matrix.path }}
+
+      - name: Format
+        working-directory: ./${{ matrix.path }}
+        run: |
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "Code is not formatted with gofmt:"
+            gofmt -d .
+            exit 1
+          fi
+
+  python-lint-format:
+      name: Python lint and format
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+            service: [column, role]
+            include:
+              - service: column
+                path: backend/column
+              - service: role
+                path: backend/role
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+        
+        - name: Setup Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: ${{ env.PYTHON_VERSION }}
+            cache: 'pip'
+        
+        - name: Install dependencies
+          working-directory: ./${{ matrix.path }}
+          run: |
+            pip install -r requirements.txt
+            pip install flake8 black
+        
+        - name: Lint with Flake8
+          working-directory: ./${{ matrix.path }}
+          run: flake8 .
+        
+        - name: Format check with Black
+          working-directory: ./${{ matrix.path }}
+          run: black --check .
