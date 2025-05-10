@@ -11,6 +11,8 @@ import (
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/session/pkg/db"
 	sessionpb "github.com/cloudnativedaysjp/cnd-handson-app/backend/session/proto"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 )
 
 func main() {
@@ -69,6 +71,11 @@ func runServer() {
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+
+	// Health checkの登録
+	healthSrv := health.NewServer()
+	healthpb.RegisterHealthServer(grpcServer, healthSrv)
+	healthSrv.SetServingStatus("", healthpb.HealthCheckResponse_SERVING)
 }
 
 func runMigrate() {
