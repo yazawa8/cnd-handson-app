@@ -11,6 +11,8 @@ import (
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/project/pkg/db"
 	projectpb "github.com/cloudnativedaysjp/cnd-handson-app/backend/project/proto"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 )
 
 func main() {
@@ -57,6 +59,11 @@ func runServer() {
 	// gRPCサービスの登録
 	projectService := &handler.ProjectServiceServer{}
 	projectpb.RegisterProjectServiceServer(grpcServer, projectService)
+
+	// Health checkの登録
+	healthSrv := health.NewServer()
+	healthpb.RegisterHealthServer(grpcServer, healthSrv)
+	healthSrv.SetServingStatus("", healthpb.HealthCheckResponse_SERVING)
 
 	log.Printf("gRPC server listening on port %s", port)
 	if err := grpcServer.Serve(lis); err != nil {
