@@ -3,6 +3,9 @@ import logging
 import grpc
 import os
 import argparse  # argparseをインポート
+from grpc_health.v1 import health
+from grpc_health.v1 import health_pb2
+from grpc_health.v1 import health_pb2_grpc
 
 from internal.role.model.role import RoleModel
 from internal.role.handler.role import RoleHandler
@@ -10,6 +13,15 @@ from internal.role.service.role import RoleService
 from internal.role.repository.role import RoleRepository
 from pkg.db.db import Database
 from proto import role_pb2_grpc
+
+
+def configure_health_server(server: grpc.Server):
+    # ヘルスサーバーの作成（非ブロッキング等のオプションは不要）
+    health_servicer = health.HealthServicer()
+    health_pb2_grpc.add_HealthServicer_to_server(health_servicer, server)
+
+    # サーバー全体のデフォルトの状態も設定可能（必要なら）
+    health_servicer.set('', health_pb2.HealthCheckResponse.SERVING)
 
 
 def server():
@@ -27,7 +39,8 @@ def server():
         role_service = RoleService(role_repository)
         role_handler = RoleHandler(role_service)
         role_pb2_grpc.add_RoleServiceServicer_to_server(role_handler, server)
-
+    # gRPCサーバーにヘルスチェックを追加
+    configure_health_server(server)
     server.add_insecure_port("[::]:" + port)
     server.start()
     print("Server started, listening on " + port)
