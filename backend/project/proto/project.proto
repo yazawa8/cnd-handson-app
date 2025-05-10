@@ -1,10 +1,84 @@
 syntax = "proto3";
 
+package project;
 
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cloudnativedaysjp/cnd-handson-app/backend/project/proto;projectpb";
+
+// ================================
+// サービス定義
+// ================================
+service ProjectService {
+  // プロジェクトの作成
+  rpc CreateProject(CreateProjectRequest) returns (ProjectResponse);
+
+  // プロジェクトの更新
+  rpc UpdateProject(UpdateProjectRequest) returns (ProjectResponse);
+
+  // プロジェクトの取得
+  rpc GetProject(GetProjectRequest) returns (ProjectResponse);
+
+  // プロジェクト一覧の取得
+  rpc ListProjects(ListProjectsRequest) returns (ListProjectsResponse);
+
+  // プロジェクトの削除
+  rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse);
+}
+
+// ================================
+// リクエスト / レスポンスメッセージ
+// ================================
+
+// --- CreateProject ---
+message CreateProjectRequest {
+  string name = 1;
+  string description = 2;
+  string owner_id = 3;
+}
+
+// --- UpdateProject ---
+message UpdateProjectRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+// --- GetProject ---
+message GetProjectRequest {
+  string id = 1;
+}
+
+// --- ListProjects ---
+message ListProjectsRequest {
+  string owner_id = 1; // 特定のユーザーが所有するプロジェクトに絞り込むためのフィールド
+}
+
+message ListProjectsResponse {
+  repeated Project projects = 1;
+}
+
+// --- Project ---
 message Project {
-    string id = 1;
-    string name = 2;
-    string description = 3;
-    string owner_id = 4;
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string owner_id = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+// --- ProjectResponse ---
+message ProjectResponse {
+  Project project = 1;
+}
+
+// --- DeleteProject ---
+message DeleteProjectRequest {
+  string id = 1;
+}
+
+message DeleteProjectResponse {
+  bool success = 1;
 }
 

@@ -29,7 +29,7 @@ RUN --mount=target=. \
     --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
     mkdir /out && go test -v -coverprofile=/out/cover.out ./...
 
-FROM golangci/golangci-lint:v1.55-alpine AS lint-base
+FROM golangci/golangci-lint:v2.1.6-alpine AS lint-base
 
 FROM base AS lint
 WORKDIR /src

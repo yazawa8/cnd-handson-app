@@ -89,9 +89,98 @@ services:
       depends_on:
         - "session-migrate"
         - "db"
+    role-migrate:
+      build:
+        context: ./backend/role
+        dockerfile: Dockerfile
+      image: role:latest
+      container_name: role-migrate
+      env_file:
+        - .env
+      environment:
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: ${DB_USER}
+        DB_PASSWORD: ${DB_PASSWORD}
+        DB_DB: ${DB_DB}
+        PYTHON_PATH: /app
+      entrypoint: ["python3", "./cmd/server/main.py", "migrate"]      
+      platform: linux/amd64
+      depends_on:
+        - "db"
+    role-service:
+      build:
+        context: ./backend/role
+        dockerfile: Dockerfile
+      image: role:latest
+      container_name: role-service
+      ports:
+        - "50051:50051"
+      env_file:
+        - .env
+      environment:
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: ${DB_USER}
+        DB_PASSWORD: ${DB_PASSWORD}
+        DB_DB: ${DB_DB}
+        PYTHON_PATH: /app
+      entrypoint: ["python3", "./cmd/server/main.py", "server"]      
+      platform: linux/amd64
+      depends_on:
+        - "role-migrate"
+        - "db"
+    project-migrate:
+      build:
+        context: ./backend/project
+        dockerfile: Dockerfile
+        target: bin
+        platforms:
+          - linux/amd64
+      image: project:latest
+      container_name: project-migrate
+      env_file:
+        - .env
+      environment:
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: ${DB_USER}
+        DB_PASSWORD: ${DB_PASSWORD}
+        DB_DB: ${DB_DB}
+      entrypoint: ["/project-service", "migrate"]      
+      platform: linux/amd64
+      depends_on:
+        - "db"
+    project-service:
+      build:
+        context: ./backend/project
+        dockerfile: Dockerfile
+        target: bin
+        platforms:
+          - linux/amd64
+      image: project:latest
+      container_name: project-service
+      ports:
+        - "50053:50053"
+      env_file:
+        - .env
+      environment:
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: ${DB_USER}
+        DB_PASSWORD: ${DB_PASSWORD}
+        DB_DB: ${DB_DB}
+        PORT: 50053
+      entrypoint: ["/project-service", "server"]      
+      platform: linux/amd64
+      depends_on:
+        - "project-migrate"
+        - "db"
     db:
       image: postgres:latest
       restart: unless-stopped
+      ports:
+        - "5432:5432"
       volumes:
         - postgres-data:/var/lib/postgresql/data
       env_file:
@@ -103,4 +192,4 @@ services:
         POSTGRES_DB: ${DB_DB}
 volumes:
   postgres-data:
-    
+
