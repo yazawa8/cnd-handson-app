@@ -18,12 +18,12 @@ class Database:
         """SQLAlchemyエンジンの取得
         """
         return self.engine
-    
+
     def get_session(self) -> Session:
         """SQLAlchemyセッションの取得
         """
         return self.SessionLocal()
-    
+
     def migrate(self) -> None:
         """データベースのマイグレーション
         """
@@ -31,7 +31,7 @@ class Database:
             model.__table__.create(self.engine, checkfirst=True)
 
         return None
-    
+
     def drop_all(self) -> None:
         """データベースの全テーブル削除
         """

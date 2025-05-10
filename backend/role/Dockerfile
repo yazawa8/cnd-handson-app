@@ -1,18 +1,21 @@
-# Use the official Python image as the base image
-FROM python:3.12-slim
+FROM python:3.12-slim AS lint
 
-# Set the working directory in the container
 WORKDIR /app
-
-# Copy the current directory contents into the container
 COPY . /app
 
-# Install any needed packages specified in requirements.txt
+# flake8 をインストール
+RUN pip install --no-cache-dir flake8
+RUN flake8 . --exclude=venv,proto --ignore=E501
+
+FROM python:3.12-slim AS runtime
+
+WORKDIR /app
+COPY . /app
+
+# 本番用の依存関係をインストール
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Define environment variable
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 
-# Run the application
-CMD ["python", "./cmd/server/main.py" ,"server"]
+CMD ["python", "./cmd/server/main.py", "server"]

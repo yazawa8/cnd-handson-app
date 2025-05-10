@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from internal.role.model.role import RoleModel
 
+
 class RoleRepository:
     def __init__(self, db: Session):
         """RoleRepositoryの初期化
@@ -26,7 +27,7 @@ class RoleRepository:
             self.db.rollback()
             print(f"Error creating role: {e}")
             return None
-        
+
     def get_by_id(self, Role_id: str) -> Optional[RoleModel]:
         """Roleの取得
         Args:
@@ -49,7 +50,6 @@ class RoleRepository:
             print(f"Error fetching all roles: {e}")
             return []
 
-    
     def update(self, role: RoleModel) -> Optional[RoleModel]:
         """Roleの更新
         Args:
@@ -58,7 +58,7 @@ class RoleRepository:
         try:
             self.db.add(role)
             self.db.commit()
-            self.db.refresh(role)        
+            self.db.refresh(role)
             return role
         except Exception as e:
             self.db.rollback()

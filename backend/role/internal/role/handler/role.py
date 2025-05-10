@@ -1,10 +1,11 @@
 from proto import role_pb2_grpc, role_pb2
 import grpc
 
+
 class RoleHandler(role_pb2_grpc.RoleServiceServicer):
     """RoleHandlerの実装
     """
-    def __init__(self,role_service):
+    def __init__(self, role_service):
         """RoleHandlerの初期化
         Args:
             role_service: RoleServiceのインスタンス
@@ -20,7 +21,8 @@ class RoleHandler(role_pb2_grpc.RoleServiceServicer):
         """
         try:
             # RoleService から生成された RoleModel を取得
-            role_model = self.role_service.create(request.name, request.description)
+            role_model = self.role_service.create(
+                request.name, request.description)
 
             # RoleResponse を構築
             response = role_pb2.RoleResponse(
@@ -35,6 +37,7 @@ class RoleHandler(role_pb2_grpc.RoleServiceServicer):
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(f'Error creating role: {str(e)}')
             return role_pb2.RoleResponse()
+
     def GetRole(self, request, context):
         """Roleの取得
         """
@@ -59,18 +62,20 @@ class RoleHandler(role_pb2_grpc.RoleServiceServicer):
             context.set_code(grpc.StatusCode.NOT_FOUND)
             context.set_details(f'Role not found: {str(e)}')
             return role_pb2.RoleResponse()
+
     def UpdateRole(self, request, context):
         """Roleの更新
         """
         try:
 
             # ここでRoleを更新する処理を実装する
-            role_model = self.role_service.update(request.id, request.name, request.description)
+            role_model = self.role_service.update(
+                request.id, request.name, request.description)
             if role_model is None:
                 context.set_code(grpc.StatusCode.NOT_FOUND)
                 context.set_details('Role not found!')
                 return role_pb2.RoleResponse()
-            
+
             # RoleResponse を構築
             response = role_pb2.RoleResponse(
                 role=role_pb2.Role(
@@ -84,6 +89,7 @@ class RoleHandler(role_pb2_grpc.RoleServiceServicer):
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(f'Error updating role: {str(e)}')
             return role_pb2.RoleResponse()
+
     def DeleteRole(self, request, context):
         """Roleの削除
         """
@@ -95,6 +101,7 @@ class RoleHandler(role_pb2_grpc.RoleServiceServicer):
             return role_pb2.DeleteRoleResponse(success=False)
         response = role_pb2.DeleteRoleResponse(success=True)
         return response
+
     def ListRoles(self, request, context):
         """Roleの一覧取得
         """
@@ -103,4 +110,3 @@ class RoleHandler(role_pb2_grpc.RoleServiceServicer):
                  role_pb2.Role(id="2", name="example_role_2")]
         response = role_pb2.ListRolesResponse(roles=roles)
         return response
-    

@@ -5,10 +5,11 @@ import uuid
 
 Base = declarative_base()
 
+
 class RoleModel(Base):
     """Roleモデル
-    Args:        
-        id: UUID  RoleのID      
+    Args:
+        id: UUID RoleのID
         name: str Roleの名前
         description: str Roleの説明
     """
