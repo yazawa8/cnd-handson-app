@@ -43,7 +43,7 @@ func InitDB() (*gorm.DB, error) {
 
 	// 接続状態を再確認
 	if DB == nil || !isDBConnected() {
-		return nil, fmt.Errorf("Failed to reconnect to the database")
+		return nil, fmt.Errorf("failed to reconnect to the database")
 	}
 
 	return DB, nil
