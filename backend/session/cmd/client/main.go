@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	sessionpb "github.com/cloudnativedaysjp/cnd-handson-app/backend/session/proto"
 )
@@ -26,14 +27,18 @@ func main() {
 
 	command := os.Args[1]
 
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("接続失敗: %v", err)
 	}
-	defer conn.Close()
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			log.Printf("Failed to close connection: %v", err)
+		}
+	}()
 
 	switch command {
 	case "generate-access-token":
