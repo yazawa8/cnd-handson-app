@@ -1,46 +1,50 @@
-all: bin/project-service
-test: lint unit-test
-IMAGE_NAME=project-service
-TAG=latest
-PLATFORM?=linux/amd64
+.PHONY: all clean proto test server client
 
-.PHONY: bin/project-service
-bin/project-service:
-	@docker build . --target bin -t $(IMAGE_NAME):$(TAG) \
-	--output bin/ \
-	--platform ${PLATFORM}
+# ビルド出力先ディレクトリ
+BIN_DIR := ./bin
+# ビルド対象のGoソースコード
+SERVER_SRC := ./cmd/server/main.go
+CLIENT_SRC := ./cmd/client/main.go
 
-.PHONY: bin/project-client
-bin/project-client:
-	@docker build . --target client -t $(IMAGE_NAME):$(TAG) \
-	--output bin/ \
-	--platform ${PLATFORM}
+# ビルド出力ファイル名
+SERVER_BIN := $(BIN_DIR)/project-service
+CLIENT_BIN := $(BIN_DIR)/project-client
 
-.PHONY: unit-test
-unit-test:
-	@docker build . --target unit-test \
-	$(BUILD_DIR)
+# ビルド対象となるGoソースファイル
+GO_FILES := $(shell find . -type f -name "*.go")
 
-.PHONY: unit-test-coverage
-unit-test-coverage:
-	@docker build . --target unit-test-coverage \
-	$(BUILD_DIR) \
-	--output coverage/ 
-	cat coverage/cover.out
+# デフォルトターゲット
+all: $(SERVER_BIN) $(CLIENT_BIN)
 
-.PHONY: lint
-lint:
-	@docker build . --target lint
+# ディレクトリの作成
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
 
-.PHONY: proto
-proto: 
-	@protoc --proto_path=./proto --proto_path=./proto \
-	--go_out=./proto --go-grpc_out=./proto proto/project.proto
-	@mv proto/github.com/cloudnativedaysjp/cnd-handson-app/backend/project/proto/* proto/
-	@rm -rf proto/github.com
-	@protoc --proto_path=./proto \
-        --doc_out=./proto --doc_opt=markdown,README.md \
-        proto/project.proto
-	@protoc --proto_path=./proto \
-        --doc_out=./proto --doc_opt=html,index.html \
-        proto/project.proto
+# サーバーのビルド
+$(SERVER_BIN): $(GO_FILES) | $(BIN_DIR)
+	go build -o $(SERVER_BIN) $(SERVER_SRC)
+
+# クライアントのビルド
+$(CLIENT_BIN): $(GO_FILES) | $(BIN_DIR)
+	go build -o $(CLIENT_BIN) $(CLIENT_SRC)
+
+# protoファイルからGo言語のコードを生成
+proto:
+	@echo "Generating Go code from proto files..."
+	cd proto && protoc --go_out=../internal --go-grpc_out=../internal project.proto
+
+# テスト実行
+test:
+	go test ./...
+
+# クリーン
+clean:
+	rm -rf $(BIN_DIR)
+
+# サーバー起動（開発用）
+server: $(SERVER_BIN)
+	$(SERVER_BIN) server
+
+# クライアント実行（開発用）
+client: $(CLIENT_BIN)
+	$(CLIENT_BIN)

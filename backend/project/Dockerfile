@@ -1,47 +1,25 @@
-FROM --platform=${BUILDPLATFORM} golang:1.24.1-alpine3.21 AS base
-WORKDIR /src
-ENV CGO_ENABLED=0
-ENV GOFLAGS="-mod=readonly"
-COPY go.mod .
-COPY go.sum . 
-RUN --mount=type=cache,target=/go/pkg/mod,sharing=locked \
-    go mod download
+FROM golang:1.24.3-alpine AS builder
 
-FROM base AS build
-ARG TARGETOS
-ARG TARGETARCH
-WORKDIR /src
-RUN --mount=target=. \
-    --mount=type=cache,target=/go/pkg/mod,sharing=locked \
-    --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
-    GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/project-service ./cmd/server/main.go
-RUN --mount=target=. \
-    --mount=type=cache,target=/go/pkg/mod,sharing=locked \
-    --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
-    GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/project-client ./cmd/client/main.go
+WORKDIR /app
 
-FROM base AS unit-test
-WORKDIR /src
-RUN --mount=target=. \
-    --mount=type=cache,target=/go/pkg/mod,sharing=locked \
-    --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
-    mkdir /out && go test -v -coverprofile=/out/cover.out ./...
+COPY go.mod go.sum ./
+RUN go mod download
 
-FROM golangci/golangci-lint:v1.55-alpine AS lint-base
+COPY . .
 
-FROM base AS lint
-WORKDIR /src
-ENV GOLANGCI_LINT_CACHE="/root/.cache/golangci-lint"
-RUN --mount=target=. \
-    --mount=from=lint-base,src=/usr/bin/golangci-lint,target=/usr/bin/golangci-lint \
-    --mount=type=cache,target=${GOLANGCI_LINT_CACHE},sharing=locked \
-    golangci-lint run --timeout 10m0s ./...
+RUN go build -o ./bin/project-service ./cmd/server/main.go
+RUN go build -o ./bin/project-client ./cmd/client/main.go
 
-FROM scratch AS unit-test-coverage
-COPY --from=unit-test /out/cover.out /cover.out
+FROM alpine:3.18 AS bin
 
-FROM scratch AS bin
-COPY --from=build /out/project-service /
+RUN apk --no-cache add ca-certificates tzdata
 
-FROM scratch AS client
-COPY --from=build /out/project-client /
+ENV TZ=Asia/Tokyo
+
+COPY --from=builder /app/bin/project-service /usr/local/bin/project-service
+COPY --from=builder /app/bin/project-client /usr/local/bin/project-client
+
+EXPOSE 50053
+
+ENTRYPOINT ["project-service"]
+CMD ["server"]
