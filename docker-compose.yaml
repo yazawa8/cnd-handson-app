@@ -89,6 +89,47 @@ services:
       depends_on:
         - "session-migrate"
         - "db"
+    role-migrate:
+      build:
+        context: ./backend/role
+        dockerfile: Dockerfile
+      image: role:latest
+      container_name: role-migrate
+      env_file:
+        - .env
+      environment:
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: ${DB_USER}
+        DB_PASSWORD: ${DB_PASSWORD}
+        DB_DB: ${DB_DB}
+        PYTHON_PATH: /app
+      entrypoint: ["python3", "./cmd/server/main.py", "migrate"]      
+      platform: linux/amd64
+      depends_on:
+        - "db"
+    role-service:
+      build:
+        context: ./backend/role
+        dockerfile: Dockerfile
+      image: role:latest
+      container_name: role-service
+      ports:
+        - "50051:50051"
+      env_file:
+        - .env
+      environment:
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: ${DB_USER}
+        DB_PASSWORD: ${DB_PASSWORD}
+        DB_DB: ${DB_DB}
+        PYTHON_PATH: /app
+      entrypoint: ["python3", "./cmd/server/main.py", "server"]      
+      platform: linux/amd64
+      depends_on:
+        - "role-migrate"
+        - "db"
     project-migrate:
       build:
         context: ./backend/project
