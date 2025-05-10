@@ -5,11 +5,11 @@ inputs:
   node-version:
     description: 'Node.js version'
     required: false
-    default: '22'
+    default: '22.5.1'
   pnpm-version:
     description: 'PNPM version'
     required: false
-    default: '10.6.5'
+    default: '10.8.0'
 
 runs:
   using: "composite"
