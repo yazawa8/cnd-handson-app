@@ -7,19 +7,15 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o ./bin/project-service ./cmd/server/main.go
-RUN go build -o ./bin/project-client ./cmd/client/main.go
+RUN CGO_ENABLED=0 go build -a -installsuffix cgo -o project-service ./cmd/server/main.go
 
-FROM alpine:3.18 AS bin
+FROM alpine:3.18
 
-RUN apk --no-cache add ca-certificates tzdata
+WORKDIR /app
 
-ENV TZ=Asia/Tokyo
-
-COPY --from=builder /app/bin/project-service /usr/local/bin/project-service
-COPY --from=builder /app/bin/project-client /usr/local/bin/project-client
+RUN apk --no-cache add ca-certificates
+COPY --from=builder /app/project-service .
 
 EXPOSE 50053
 
-ENTRYPOINT ["project-service"]
-CMD ["server"]
+CMD ["./project-service", "server"]
