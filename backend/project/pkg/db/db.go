@@ -114,7 +114,7 @@ func connectDB() {
 	// 環境変数が設定されているか確認し、未設定ならデフォルト値を使う
 	host := getEnvOrDefault("DB_HOST", "localhost")
 	user := getEnvOrDefault("DB_USER", "postgres")
-	password := getEnvOrDefault("DB_PASSWORD", "postgres")
+	password := getEnvOrDefault("DB_PASSWORD", "")
 	dbname := getEnvOrDefault("DB_DB", "postgres")
 	port := getEnvOrDefault("DB_PORT", "5432")
 
