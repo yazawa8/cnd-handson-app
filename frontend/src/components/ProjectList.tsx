@@ -58,9 +58,9 @@ const ProjectList: React.FC = () => {
       <Grid container spacing={2}>
         {projects.map((proj) => (
           <Grid item xs={12} sm={6} md={4} key={proj.id}>
-            <Card>
+            <Card sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <CardActionArea onClick={() => handleClickCard(proj.id)}>
-                <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <CardContent>
                   <Box>
                     <Typography variant="h5">{proj.name}</Typography>
                     {proj.description && (
@@ -69,9 +69,9 @@ const ProjectList: React.FC = () => {
                       </Typography>
                     )}
                   </Box>
-                  <MoreMenu id={proj.id} options={options} />
                 </CardContent>
               </CardActionArea>
+              <MoreMenu id={proj.id} options={options} />
             </Card>
           </Grid>
         ))}

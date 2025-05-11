@@ -11,6 +11,7 @@ import PrivateLayout from './components/PrivateLayout';
 import ProjectList from './components/ProjectList';
 import ProjectForm from './components/ProjectForm';
 import { Project } from './features/projects/types';
+import BoardForm from './components/BoardForm';
 
 
 
@@ -35,6 +36,9 @@ function App() {
               throw new Error('Function not implemented.');
             } } />} />
             <Route path="/boards/:id" element={<Borad />} />
+            <Route path="/boards/add" element={<BoardForm />} />
+            <Route path="/boards/edit/:id" element={<BoardForm />} />
+
             <Route path="/tasks/:id" element={<TaskModal open={false} task={null} onClose={function (): void {
               throw new Error('Function not implemented.');
             } } />} />

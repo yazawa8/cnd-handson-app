@@ -18,9 +18,12 @@ const BoardList: React.FC = () => {
 
   const options: MoreMenuOption<string>[] = [
     { label: '編集', onClick: (id) => navigate(`/boards/edit/${id}`) },
-    { label: '削除', onClick: (id) => navigate('/') },
+    { label: '削除', onClick: (id) => navigate(`/boards/delete/${id}`) },
   ];
-  const onAdd = () => { }
+
+  const onAdd = () => { 
+    navigate('/boards/new');
+  }
   return (
     <div style={{ padding: '16px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px' }}>
@@ -32,18 +35,18 @@ const BoardList: React.FC = () => {
       <Grid container spacing={2}>
         {boards.map((board: Board) => (
           <Grid item xs={12} sm={6} md={4} key={board.id}>
-            <Card>
+            <Card  sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <CardActionArea onClick={() => handleBoardClick(board)}>
-                <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <CardContent>
                   <Box>
                     <Typography variant="h5">{board.name}</Typography>
                     <Typography variant="body2" color="textSecondary">
                       {board.description || 'No description available.'}
                     </Typography>
                   </Box>
-                  <MoreMenu id={board.id} options={options} />
                 </CardContent>
               </CardActionArea>
+              <MoreMenu id={board.id} options={options} />
             </Card>
           </Grid>
         ))}
