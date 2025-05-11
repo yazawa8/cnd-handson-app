@@ -1,5 +1,10 @@
 syntax = "proto3";
 
+package task;
+
+// import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cloudnativedaysjp/cnd-handson-app/backend/task/proto;taskpb";
 
 message Task {
     string id = 1;
