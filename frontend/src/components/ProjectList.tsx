@@ -8,14 +8,31 @@ import { setSelectedProject } from '../features/projects/slice';
 import { deleteProject } from '../features/projects/slice';
 import MoreMenu, { MoreMenuOption } from './MoreMenu';
 import AddButton from './AddButton';
+import ProjectForm from './ProjectForm';
+import { Project } from '../features/projects/types';
 
 const ProjectList: React.FC = () => {
   const projects = useSelector((state: RootState) => state.projects.projects);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [editOpen, setEditOpen] = React.useState(false);
+  const [editTarget, setEditTarget] = React.useState<Project | null>(null);
+
+  const openEdit = (proj: Project) => {
+    setEditTarget(proj);
+    setEditOpen(true);
+  };
+  const closeEdit = () => {
+    setEditOpen(false);
+    setEditTarget(null);
+  };
+  const handleSave = (updated: Project) => {
+    dispatch(updateProject(updated));
+    closeEdit();
+  };
 
   const options: MoreMenuOption<string>[] = [
-      { label: '編集', onClick: (id) => navigate(`/projects/edit/${id}`) },
+      { label: '編集', onClick: (id) => openEdit(proj) },
       { label: '削除', onClick: (id) => {
         if (window.confirm('本当に削除しますか？')) {
           dispatch(deleteProject(id));
@@ -26,7 +43,9 @@ const ProjectList: React.FC = () => {
     navigate('/boards');
   };
 
-  const onAdd = () => {}
+  const onAdd = () => {
+    navigate('/projects/new');
+  }
 
   return (
     <Box sx={{ p: 2 }}>
@@ -62,3 +81,7 @@ const ProjectList: React.FC = () => {
 };
 
 export default ProjectList;
+function updateProject(updated: Project): any {
+  throw new Error('Function not implemented.');
+}
+

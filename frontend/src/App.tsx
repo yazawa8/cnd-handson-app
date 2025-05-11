@@ -9,6 +9,9 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import PrivateLayout from './components/PrivateLayout';
 import ProjectList from './components/ProjectList';
+import ProjectForm from './components/ProjectForm';
+import { Project } from './features/projects/types';
+
 
 
 function App() {
@@ -21,6 +24,16 @@ function App() {
           <Route element={<PrivateLayout />}>
             <Route path="/boards" element={ <BoardList />} />
             <Route path="/" element={<ProjectList />} />
+            <Route path="/projects/new" element={<ProjectForm open={false} project={null} onClose={function (): void {
+              throw new Error('Function not implemented.');
+            } } onSave={function (updated: Project): void {
+              throw new Error('Function not implemented.');
+            } } />} />
+            <Route path="/projects/edit/:id" element={<ProjectForm open={false} project={null} onClose={function (): void {
+              throw new Error('Function not implemented.');
+            } } onSave={function (): void {
+              throw new Error('Function not implemented.');
+            } } />} />
             <Route path="/boards/:id" element={<Borad />} />
             <Route path="/tasks/:id" element={<TaskModal open={false} task={null} onClose={function (): void {
               throw new Error('Function not implemented.');

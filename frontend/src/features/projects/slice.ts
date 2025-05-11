@@ -42,9 +42,18 @@ const projectsSlice = createSlice({
       if (state.selectedId === action.payload) {
         state.selectedId = '';
       }
+    },
+    addProject(state, action: PayloadAction<Project>) {
+      state.projects.push(action.payload);
+    },
+    updateProject(state, action: PayloadAction<Project>) {
+      const index = state.projects.findIndex((project) => project.id === action.payload.id);
+      if (index !== -1) {
+        state.projects[index] = action.payload;
+      }
     }
   },
 });
 
-export const { setProjects, setSelectedProject, deleteProject } = projectsSlice.actions;
+export const { setProjects, setSelectedProject, deleteProject, addProject, updateProject } = projectsSlice.actions;
 export default projectsSlice.reducer;
