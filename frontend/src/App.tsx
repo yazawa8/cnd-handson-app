@@ -4,7 +4,6 @@ import { store } from './store';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import BoardList from './components/BoardList';
 import Borad from './components/Borad';
-import TaskModal from './components/TaskModal';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import PrivateLayout from './components/PrivateLayout';
@@ -12,6 +11,8 @@ import ProjectList from './components/ProjectList';
 import ProjectForm from './components/ProjectForm';
 import { Project } from './features/projects/types';
 import BoardForm from './components/BoardForm';
+import NewTaskPage from './components/TaskNewPage';
+import TaskEditPage from './components/TaskEditPage';
 
 
 
@@ -19,7 +20,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <Routes>
+        <Routes> 
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route element={<PrivateLayout />}>
@@ -38,8 +39,10 @@ function App() {
             <Route path="/boards/:id" element={<Borad />} />
             <Route path="/boards/add" element={<BoardForm />} />
             <Route path="/boards/edit/:id" element={<BoardForm />} />
-
-            <Route path="/tasks/:id" element={<TaskModal open={false} task={null} onClose={function (): void {
+            <Route path="/tasks/new" element={<NewTaskPage open={false} task={null} onClose={function (): void {
+              throw new Error('Function not implemented.');
+            } } />} />
+            <Route path="/tasks/edit/:id" element={<TaskEditPage open={false} task={null} onClose={function (): void {
               throw new Error('Function not implemented.');
             } } />} />
           </Route>

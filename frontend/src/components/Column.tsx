@@ -1,31 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, TextField, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { useDroppable } from '@dnd-kit/core';
 import { Column as ColumnType } from '../features/columns/types';
 import { Task } from '../features/tasks/types';
 import TaskCard from './TaskCard';
+import { useNavigate } from 'react-router-dom';
 
 interface ColumnProps {
   column: ColumnType;
   tasks: Task[];
   onUpdateColumnName?: (id: string, name: string) => void;
   onDeleteColumn?: (id: string) => void;
+  onAdd?: () => void;
   initiallyEditing?: boolean;
 }
 
-const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDeleteColumn, initiallyEditing = false }) => {
+const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDeleteColumn, onAdd, initiallyEditing = false }) => {
   const { setNodeRef, isOver } = useDroppable({ id: column.id });
 
   const [isEditing, setIsEditing] = useState(initiallyEditing);
   const [name, setName] = useState(column.name);
-
-  useEffect(() => {
-    if (initiallyEditing) {
-      setIsEditing(true);
-    }
-  }, [initiallyEditing]);
+  const navigate = useNavigate();
 
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -55,6 +53,7 @@ const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDe
         minWidth: 280,
         backgroundColor: '#fafafa',
         boxShadow: 1,
+        position: 'relative',
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -93,6 +92,15 @@ const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDe
       {tasks.map((task) => (
         <TaskCard key={task.id} task={task} />
       ))}
+
+      <IconButton
+        size="small"
+        color="primary"
+        sx={{ position: 'absolute', bottom: 8, right: 8 }}
+        onClick={() => navigate(`/tasks/new?columnId=${column.id}`)}
+      >
+        <AddIcon />
+      </IconButton>
     </Box>
   );
 };

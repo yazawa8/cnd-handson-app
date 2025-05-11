@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import { Task } from '../features/tasks/types';
 import { useDraggable } from '@dnd-kit/core';
-import TaskModal from './TaskModal';
 import { useNavigate } from 'react-router-dom';
 import MoreMenu, { MoreMenuOption } from './MoreMenu';
+import { useDispatch } from 'react-redux';
+import { deleteTask } from '../features/tasks/slice';
 
 interface TaskCardProps {
   task: Task;
@@ -13,19 +14,11 @@ interface TaskCardProps {
 
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const dispatch = useDispatch();
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: task.id,
-    data: { task }
+    data: { task },
   });
 
   const style = {
@@ -36,14 +29,16 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   };
 
    const options: MoreMenuOption<string>[] = [
-      { label: '編集', onClick: (id) => navigate(`/boards/edit/${id}`) },
-      { label: '削除', onClick: (id) => navigate('/') },
-    ];
+      { label: '編集', onClick: (id) => navigate(`/tasks/edit/${id}`) },
+      { label: '削除', onClick: (id) => {
+              if (window.confirm('本当に削除しますか？')) {
+                dispatch(deleteTask(id));
+      }}},];
     
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Card style={{ margin: '20px', cursor: 'pointer' }} onClick={handleClick}>
-        <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Card sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <CardContent>
           <Box>
             <Typography variant="h6">{task.title}</Typography>
             <Typography variant="body2" color="textSecondary">
@@ -51,10 +46,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
             </Typography>
             <Typography variant="caption">Status: {task.status}</Typography>
           </Box>
-          <MoreMenu id={task.id} options={options} />
         </CardContent>
+        <MoreMenu id={task.id} options={options} />
       </Card>
-      <TaskModal task={task} open={open} onClose={handleClose} />
     </div>
   );
 };

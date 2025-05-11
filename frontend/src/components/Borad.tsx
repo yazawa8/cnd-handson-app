@@ -5,7 +5,7 @@ import Column from './Column';
 import { Column as ColumnType } from '../features/columns/types';
 import { removeColumn } from '../features/columns/slice';
 import { updateTaskColumn } from '../features/tasks/slice';
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { DndContext,  useSensor, useSensors, MouseSensor, DragEndEvent } from '@dnd-kit/core';
 import AddButton from './AddButton';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -46,8 +46,12 @@ const KanbanBoard: React.FC = () => {
     setColumns(columns.filter(c => c.id !== id));
   };
 
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } })
+  );
+
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px' }}>
         <AddButton label="列を追加" onClick={handleAddColumn} />
       </div>

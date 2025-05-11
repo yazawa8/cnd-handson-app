@@ -128,9 +128,12 @@ const tasksSlice = createSlice({
         task.updatedAt = new Date().toISOString();
       }
     },
+    deleteTask(state, action: PayloadAction<string>) {
+      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+    }
   },
 });
 
 export const { addTask } = tasksSlice.actions;
-export const { updateTaskColumn } = tasksSlice.actions;
+export const { updateTaskColumn, deleteTask } = tasksSlice.actions;
 export default tasksSlice.reducer;
