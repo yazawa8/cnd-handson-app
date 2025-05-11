@@ -22,7 +22,7 @@ const KanbanBoard: React.FC = () => {
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div style={{ display: 'flex', gap: '16px', padding: '16px' }}>
+      <div style={{ display: 'flex', gap: '16px', padding: '16px'}}>
         {columns.map((column: ColumnType) => {
           const tasksInColumn = tasks.filter(task => task.columnId === column.id);
           return (

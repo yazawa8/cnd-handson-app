@@ -1,10 +1,12 @@
 // src/components/Column.tsx
 import React from 'react';
-import { Typography, Paper } from '@mui/material';
+import { Typography, Paper, Box } from '@mui/material';
 import { Column as ColumnType } from '../features/columns/types';
 import { useDroppable } from '@dnd-kit/core';
 import { Task } from '../features/tasks/types';
 import TaskCard from './TaskCrad';
+import MoreMenu, { MoreMenuOption } from './MoreMenu';
+import { useNavigate } from 'react-router-dom';
 
 interface ColumnProps {
   column: ColumnType;
@@ -16,27 +18,25 @@ const Column: React.FC<ColumnProps> = ({ column, tasks }) => {
     id: column.id,
     data: { column },
   });
+  const navigate = useNavigate();
 
-  const style = {
-    border: isOver ? '2px dashed #4CAF50' : '1px solid #ccc',
-    borderRadius: 16,
-    padding: '24px',
-    minWidth: '300px',
-    backgroundColor: isOver ? '#f0fff0' : '#ffffff',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-    transition: 'background-color 0.2s ease, box-shadow 0.2s ease',
-  };
+    const options: MoreMenuOption<string>[] = [
+      { label: '編集', onClick: (id) => navigate(`/boards/edit/${id}`) },
+      { label: '削除', onClick: (id) => navigate('/') },
+    ];
 
   return (
     <Paper
       ref={setNodeRef}
       sx={{
-        style,
-      }}
-    >
-      <Typography variant="h5" gutterBottom>
-        {column.name}
-      </Typography>
+        width: '300px',
+        padding: 2,}}
+    > <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Typography variant="h5" gutterBottom>
+          {column.name}
+        </Typography>
+        <MoreMenu id={column.id} options={options} />
+      </Box>
       {tasks.map((task) => (
         <TaskCard key={task.id} task={task} />
       ))}
