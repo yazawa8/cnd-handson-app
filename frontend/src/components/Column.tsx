@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, TextField, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,13 +12,20 @@ interface ColumnProps {
   tasks: Task[];
   onUpdateColumnName?: (id: string, name: string) => void;
   onDeleteColumn?: (id: string) => void;
+  initiallyEditing?: boolean;
 }
 
-const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDeleteColumn }) => {
+const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDeleteColumn, initiallyEditing = false }) => {
   const { setNodeRef, isOver } = useDroppable({ id: column.id });
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(initiallyEditing);
   const [name, setName] = useState(column.name);
+
+  useEffect(() => {
+    if (initiallyEditing) {
+      setIsEditing(true);
+    }
+  }, [initiallyEditing]);
 
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
