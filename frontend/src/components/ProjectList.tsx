@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { setSelectedProject } from '../features/projects/slice';
 import { deleteProject } from '../features/projects/slice';
 import MoreMenu, { MoreMenuOption } from './MoreMenu';
+import AddButton from './AddButton';
 
 const ProjectList: React.FC = () => {
   const projects = useSelector((state: RootState) => state.projects.projects);
@@ -25,11 +26,16 @@ const ProjectList: React.FC = () => {
     navigate('/boards');
   };
 
+  const onAdd = () => {}
+
   return (
     <Box sx={{ p: 2 }}>
-      <Typography variant="h4" gutterBottom>
-        Projects
-      </Typography>
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px' }}>
+        <Typography variant="h4" gutterBottom>
+          Projects
+        </Typography>
+        <AddButton label="Projectを追加" onClick={onAdd} />
+      </div>
       <Grid container spacing={2}>
         {projects.map((proj) => (
           <Grid item xs={12} sm={6} md={4} key={proj.id}>

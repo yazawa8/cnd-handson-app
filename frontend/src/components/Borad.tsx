@@ -5,6 +5,7 @@ import Column from './Column';
 import { Column as ColumnType } from '../features/columns/types';
 import { updateTaskColumn } from '../features/tasks/slice';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import AddButton from './AddButton';
 
 
 const KanbanBoard: React.FC = () => {
@@ -19,9 +20,14 @@ const KanbanBoard: React.FC = () => {
     const newColumnId = over.id.toString();
     dispatch(updateTaskColumn({ taskId, columnId: newColumnId }));
   }
+  const onAdd = () => {
+  }
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px' }}>
+        <AddButton label="列を追加" onClick={onAdd} />
+      </div>
       <div style={{ display: 'flex', gap: '16px', padding: '16px'}}>
         {columns.map((column: ColumnType) => {
           const tasksInColumn = tasks.filter(task => task.columnId === column.id);

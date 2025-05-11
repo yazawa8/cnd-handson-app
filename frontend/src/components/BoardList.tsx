@@ -6,6 +6,7 @@ import { Board } from '../features/board/types';
 import { Box, Grid, Card, CardContent, Typography, CardActionArea } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import MoreMenu, { MoreMenuOption } from './MoreMenu';
+import AddButton from './AddButton';
 
 const BoardList: React.FC = () => {
   const navigate = useNavigate();
@@ -19,12 +20,15 @@ const BoardList: React.FC = () => {
     { label: '編集', onClick: (id) => navigate(`/boards/edit/${id}`) },
     { label: '削除', onClick: (id) => navigate('/') },
   ];
-
+  const onAdd = () => { }
   return (
     <div style={{ padding: '16px' }}>
-      <Typography variant="h4" gutterBottom>
-        Boards
-      </Typography>
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px' }}>
+        <Typography variant="h4" gutterBottom>
+          Boards
+        </Typography>
+        <AddButton label="Boardを追加" onClick={onAdd} />
+      </div>
       <Grid container spacing={2}>
         {boards.map((board: Board) => (
           <Grid item xs={12} sm={6} md={4} key={board.id}>
