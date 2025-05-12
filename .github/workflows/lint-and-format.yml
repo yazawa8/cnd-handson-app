@@ -14,6 +14,7 @@ jobs:
     name: TypeScript lint and format
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         service: [frontend, bff]
     
@@ -42,6 +43,7 @@ jobs:
     name: Go lint and format
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
           service: [project, user, session, board, task]
           include:
@@ -85,6 +87,7 @@ jobs:
       name: Python lint and format
       runs-on: ubuntu-latest
       strategy:
+        fail-fast: false
         matrix:
             service: [column, role]
             include:
