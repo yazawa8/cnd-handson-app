@@ -42,8 +42,8 @@ RUN --mount=target=. \
 FROM scratch AS unit-test-coverage
 COPY --from=unit-test /out/cover.out /cover.out
 
-FROM scratch AS bin
-COPY --from=build /out/user-service /
-
 FROM scratch AS client
 COPY --from=build /out/user-client /
+
+FROM scratch AS bin
+COPY --from=build /out/user-service /
