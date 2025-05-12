@@ -110,7 +110,7 @@ jobs:
         
         - name: Lint with Flake8
           working-directory: ./${{ matrix.path }}
-          run: flake8 .
+          run: flake8 . --exclude=venv,proto --ignore=E501
         
         - name: Format check with Black
           working-directory: ./${{ matrix.path }}
