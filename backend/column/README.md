@@ -1,5 +1,5 @@
 ```
-PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/server/main.py
+PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/server/main.py
 ```
 
 # User Service
@@ -29,7 +29,7 @@ CloudNative Days Handson用のロールサービスのサンプルアプリケ�
 ### 1. リポジトリをクローン
 ```bash
 git clone https://github.com/cloudnativedaysjp/cnd-handson-app/
-cd role-service
+cd column-service
 ```
 
 ### 2. devContainerの環境変数を設定
@@ -51,16 +51,16 @@ devcontainer open
 
 ### 4. マイグレーションを実行
 ```bash
-PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/server/main.py migrate
+PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/server/main.py migrate
 ```
 もし失敗するorテーブルをリセットしたい場合
 ```bash
-PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/server/main.py reset
+PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/server/main.py reset
 ```
 
 ### 5. アプリケーションを起動
 ```bash
-PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/server/main.py server
+PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/server/main.py server
 ```
 ---
 ## Quick Start
@@ -68,43 +68,43 @@ PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/server/main.py server
 ### ロール作成
 #### コマンド
 ```bash
-PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/client/main.py create <name> <description>
+PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/client/main.py create <name> <description>
 ```
 #### 例
 ```bash
-$ PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/client/main.py create test test用のrole
-Response from server: id=b99e3afb-dad5-4067-9c3d-883faf43ae04, name=test, description=test用のrole
+$ PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/client/main.py create test test用のcolumn
+Response from server: id=b99e3afb-dad5-4067-9c3d-883faf43ae04, name=test, description=test用のcolumn
 ```
 ### ロール更新
 #### コマンド
 ```bash
-PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/client/main.py update <id> <name> <description>
+PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/client/main.py update <id> <name> <description>
 ```
 #### 例
 ```bash
-$ PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/client/main.py update b99e3afb-dad5-4067-9c3d-883faf43ae04 update updateのtest用のrole
-Response from server: id=b99e3afb-dad5-4067-9c3d-883faf43ae04, name=update, description=updateのtest用のrole
+$ PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/client/main.py update b99e3afb-dad5-4067-9c3d-883faf43ae04 update updateのtest用のcolumn
+Response from server: id=b99e3afb-dad5-4067-9c3d-883faf43ae04, name=update, description=updateのtest用のcolumn
 ```
 
 ### ロール情報取得
 ```bash
-PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/client/main.py get <id>
+PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/client/main.py get <id>
 ```
 #### 例
 ```bash
-$ PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/client/main.py get b99e3afb-dad5-4067
+$ PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/client/main.py get b99e3afb-dad5-4067
 -9c3d-883faf43ae04 
-Response from server: id=b99e3afb-dad5-4067-9c3d-883faf43ae04, name=update, description=updateのtest用のrole
+Response from server: id=b99e3afb-dad5-4067-9c3d-883faf43ae04, name=update, description=updateのtest用のcolumn
 ```
 
 ### ユーザ削除
 ```bash
-PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/client/main.py delete <id>
+PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/client/main.py delete <id>
 ```
 
 #### 例
 ```bash
-$ PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/client/main.py delete b99e3afb-dad5-4
+$ PYTHONPATH=/workspaces/column python3 /workspaces/column/cmd/client/main.py delete b99e3afb-dad5-4
 067-9c3d-883faf43ae04 
 Response from server: Role with id b99e3afb-dad5-4067-9c3d-883faf43ae04 deleted successfully
 ```
@@ -123,7 +123,7 @@ gRPCの詳細な仕様は、[gRPC仕様書](proto/READEME.md)を参照してく�
 │   ├── client/         # clientのエントリーポイント
 │   └── server/         # serverのエントリーポイント
 ├── internal/           # 内部ロジック
-│   └── role/           # ユーザー関連
+│   └── column/           # ユーザー関連
 ├── pkg/                # 再利用可能なパッケージ
 │   └── db/             # データベース関連
 ├── proto/              # proto関連
