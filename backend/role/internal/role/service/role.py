@@ -27,7 +27,12 @@ class RoleService:
         """
         return self.repository.get_by_id(role_id)
 
-    def update(self, role_id: UUID, name: Optional[str] = None, description: Optional[str] = None) -> Optional[RoleModel]:
+    def update(
+        self,
+        role_id: UUID,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+    ) -> Optional[RoleModel]:
         """Roleの更新
         Args:
             role_id: RoleのID
