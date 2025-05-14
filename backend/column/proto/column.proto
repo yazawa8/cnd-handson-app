@@ -1,7 +1,75 @@
 syntax = "proto3";
+package column;
+
+// ================================
+// サービス定義
+// ================================
+
+service ColumnService {
+  // Columnの生成   
+  rpc CreateColumn(CreateColumnRequest) returns (ColumnResponse);
+
+  // Columnの取得
+  rpc GetColumn(GetColumnRequest) returns (ColumnResponse);
+
+  // Columnの更新
+  rpc UpdateColumn(UpdateColumnRequest) returns (ColumnResponse);
+
+  // Columnの削除
+  rpc DeleteColumn(DeleteColumnRequest) returns (DeleteColumnResponse);
+
+  // Columnの一覧取得
+  rpc ListColumns(ListColumnsRequest) returns (ListColumnsResponse);
+}
+
+// ================================
+// リクエスト / レスポンスメッセージ
+// ================================
+
+message CreateColumnRequest {
+  string name = 1;
+  string board_id = 2;
+}
+
+message GetColumnRequest {
+  string id = 1;
+}
+
+message UpdateColumnRequest {
+  string id = 1;
+  string name = 2;
+  string board_id = 3;
+}
+
+message ColumnResponse {
+  Column column = 1;
+}
+
+message DeleteColumnRequest {
+  string id = 1;
+}
+
+message DeleteColumnResponse {
+  bool success = 1;
+}
+
+message ListColumnsRequest {
+  string board_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ListColumnsResponse {
+  repeated Column columns = 1;
+  int32 total_count = 2;
+}
+
+// ================================
+// エンティティ定義
+// ================================
 
 message Column {
-    string id = 1;
-    string name = 2;
-    string board_id = 3;
+  string id = 1;
+  string name = 2;
+  string board_id = 3;
 }
