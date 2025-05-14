@@ -1,7 +1,5 @@
-from proto import column_pb2_grpc, column_pb2
 from internal.column.model.column import ColumnModel
 from internal.column.repository.column import ColumnRepository
-import grpc
 from uuid import UUID
 from typing import Optional
 
