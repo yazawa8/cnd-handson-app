@@ -21,7 +21,7 @@ def configure_health_server(server: grpc.Server):
     health_pb2_grpc.add_HealthServicer_to_server(health_servicer, server)
 
     # サーバー全体のデフォルトの状態も設定可能（必要なら）
-    health_servicer.set('', health_pb2.HealthCheckResponse.SERVING)
+    health_servicer.set("", health_pb2.HealthCheckResponse.SERVING)
 
 
 def server():
@@ -72,11 +72,16 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     port = os.getenv("PORT", "50051")
-    db_url = os.getenv("DATABASE_URL", "postgresql+psycopg2://your_db_user:your_db_password@db:5432/your_db_name")
+    db_url = os.getenv(
+        "DATABASE_URL",
+        "postgresql+psycopg2://your_db_user:your_db_password@db:5432/your_db_name",
+    )
 
     # argparseでコマンドライン引数を処理
     parser = argparse.ArgumentParser(description="Manage the gRPC server and database.")
-    parser.add_argument("command", choices=["server", "migrate", "reset"], help="Command to execute")
+    parser.add_argument(
+        "command", choices=["server", "migrate", "reset"], help="Command to execute"
+    )
 
     args = parser.parse_args()
 

@@ -11,38 +11,35 @@ class Database:
             models: SQLAlchemyのモデルクラスのリスト
         """
         self.engine = create_engine(db_url, echo=True)  # echo=TrueはSQLログ出したいなら
-        self.SessionLocal = sessionmaker(bind=self.engine, autoflush=False, autocommit=False)
+        self.SessionLocal = sessionmaker(
+            bind=self.engine, autoflush=False, autocommit=False
+        )
         self.models = models
 
     def get_engine(self) -> Engine:
-        """SQLAlchemyエンジンの取得
-        """
+        """SQLAlchemyエンジンの取得"""
         return self.engine
 
     def get_session(self) -> Session:
-        """SQLAlchemyセッションの取得
-        """
+        """SQLAlchemyセッションの取得"""
         return self.SessionLocal()
 
     def migrate(self) -> None:
-        """データベースのマイグレーション
-        """
+        """データベースのマイグレーション"""
         for model in self.models:
             model.__table__.create(self.engine, checkfirst=True)
 
         return None
 
     def drop_all(self) -> None:
-        """データベースの全テーブル削除
-        """
+        """データベースの全テーブル削除"""
         for model in self.models:
             model.__table__.drop(self.engine, checkfirst=True)
 
         return None
 
     def close(self) -> None:
-        """データベース接続のクローズ
-        """
+        """データベース接続のクローズ"""
         self.engine.dispose()
         return None
 

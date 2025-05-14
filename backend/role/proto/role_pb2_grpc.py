@@ -5,23 +5,26 @@ import warnings
 
 import proto.role_pb2 as role__pb2
 
-GRPC_GENERATED_VERSION = '1.71.0'
+GRPC_GENERATED_VERSION = "1.71.0"
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
 try:
     from grpc._utilities import first_version_is_lower
-    _version_not_supported = first_version_is_lower(GRPC_VERSION, GRPC_GENERATED_VERSION)
+
+    _version_not_supported = first_version_is_lower(
+        GRPC_VERSION, GRPC_GENERATED_VERSION
+    )
 except ImportError:
     _version_not_supported = True
 
 if _version_not_supported:
     raise RuntimeError(
-        f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in role_pb2_grpc.py depends on'
-        + f' grpcio>={GRPC_GENERATED_VERSION}.'
-        + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
-        + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
+        f"The grpc package installed is at version {GRPC_VERSION},"
+        + f" but the generated code in role_pb2_grpc.py depends on"
+        + f" grpcio>={GRPC_GENERATED_VERSION}."
+        + f" Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}"
+        + f" or downgrade your generated code using grpcio-tools<={GRPC_VERSION}."
     )
 
 
@@ -39,30 +42,35 @@ class RoleServiceStub(object):
             channel: A grpc.Channel.
         """
         self.CreateRole = channel.unary_unary(
-                '/role.RoleService/CreateRole',
-                request_serializer=role__pb2.CreateRoleRequest.SerializeToString,
-                response_deserializer=role__pb2.RoleResponse.FromString,
-                _registered_method=True)
+            "/role.RoleService/CreateRole",
+            request_serializer=role__pb2.CreateRoleRequest.SerializeToString,
+            response_deserializer=role__pb2.RoleResponse.FromString,
+            _registered_method=True,
+        )
         self.GetRole = channel.unary_unary(
-                '/role.RoleService/GetRole',
-                request_serializer=role__pb2.GetRoleRequest.SerializeToString,
-                response_deserializer=role__pb2.RoleResponse.FromString,
-                _registered_method=True)
+            "/role.RoleService/GetRole",
+            request_serializer=role__pb2.GetRoleRequest.SerializeToString,
+            response_deserializer=role__pb2.RoleResponse.FromString,
+            _registered_method=True,
+        )
         self.UpdateRole = channel.unary_unary(
-                '/role.RoleService/UpdateRole',
-                request_serializer=role__pb2.UpdateRoleRequest.SerializeToString,
-                response_deserializer=role__pb2.RoleResponse.FromString,
-                _registered_method=True)
+            "/role.RoleService/UpdateRole",
+            request_serializer=role__pb2.UpdateRoleRequest.SerializeToString,
+            response_deserializer=role__pb2.RoleResponse.FromString,
+            _registered_method=True,
+        )
         self.DeleteRole = channel.unary_unary(
-                '/role.RoleService/DeleteRole',
-                request_serializer=role__pb2.DeleteRoleRequest.SerializeToString,
-                response_deserializer=role__pb2.DeleteRoleResponse.FromString,
-                _registered_method=True)
+            "/role.RoleService/DeleteRole",
+            request_serializer=role__pb2.DeleteRoleRequest.SerializeToString,
+            response_deserializer=role__pb2.DeleteRoleResponse.FromString,
+            _registered_method=True,
+        )
         self.ListRoles = channel.unary_unary(
-                '/role.RoleService/ListRoles',
-                request_serializer=role__pb2.ListRolesRequest.SerializeToString,
-                response_deserializer=role__pb2.ListRolesResponse.FromString,
-                _registered_method=True)
+            "/role.RoleService/ListRoles",
+            request_serializer=role__pb2.ListRolesRequest.SerializeToString,
+            response_deserializer=role__pb2.ListRolesResponse.FromString,
+            _registered_method=True,
+        )
 
 
 class RoleServiceServicer(object):
@@ -73,76 +81,72 @@ class RoleServiceServicer(object):
     """
 
     def CreateRole(self, request, context):
-        """Roleの生成   
-        """
+        """Roleの生成"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def GetRole(self, request, context):
-        """Roleの取得
-        """
+        """Roleの取得"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def UpdateRole(self, request, context):
-        """Roleの更新
-        """
+        """Roleの更新"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def DeleteRole(self, request, context):
-        """Roleの削除
-        """
+        """Roleの削除"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ListRoles(self, request, context):
-        """Roleの一覧取得
-        """
+        """Roleの一覧取得"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
 
 def add_RoleServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'CreateRole': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateRole,
-                    request_deserializer=role__pb2.CreateRoleRequest.FromString,
-                    response_serializer=role__pb2.RoleResponse.SerializeToString,
-            ),
-            'GetRole': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetRole,
-                    request_deserializer=role__pb2.GetRoleRequest.FromString,
-                    response_serializer=role__pb2.RoleResponse.SerializeToString,
-            ),
-            'UpdateRole': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateRole,
-                    request_deserializer=role__pb2.UpdateRoleRequest.FromString,
-                    response_serializer=role__pb2.RoleResponse.SerializeToString,
-            ),
-            'DeleteRole': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteRole,
-                    request_deserializer=role__pb2.DeleteRoleRequest.FromString,
-                    response_serializer=role__pb2.DeleteRoleResponse.SerializeToString,
-            ),
-            'ListRoles': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListRoles,
-                    request_deserializer=role__pb2.ListRolesRequest.FromString,
-                    response_serializer=role__pb2.ListRolesResponse.SerializeToString,
-            ),
+        "CreateRole": grpc.unary_unary_rpc_method_handler(
+            servicer.CreateRole,
+            request_deserializer=role__pb2.CreateRoleRequest.FromString,
+            response_serializer=role__pb2.RoleResponse.SerializeToString,
+        ),
+        "GetRole": grpc.unary_unary_rpc_method_handler(
+            servicer.GetRole,
+            request_deserializer=role__pb2.GetRoleRequest.FromString,
+            response_serializer=role__pb2.RoleResponse.SerializeToString,
+        ),
+        "UpdateRole": grpc.unary_unary_rpc_method_handler(
+            servicer.UpdateRole,
+            request_deserializer=role__pb2.UpdateRoleRequest.FromString,
+            response_serializer=role__pb2.RoleResponse.SerializeToString,
+        ),
+        "DeleteRole": grpc.unary_unary_rpc_method_handler(
+            servicer.DeleteRole,
+            request_deserializer=role__pb2.DeleteRoleRequest.FromString,
+            response_serializer=role__pb2.DeleteRoleResponse.SerializeToString,
+        ),
+        "ListRoles": grpc.unary_unary_rpc_method_handler(
+            servicer.ListRoles,
+            request_deserializer=role__pb2.ListRolesRequest.FromString,
+            response_serializer=role__pb2.ListRolesResponse.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'role.RoleService', rpc_method_handlers)
+        "role.RoleService", rpc_method_handlers
+    )
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('role.RoleService', rpc_method_handlers)
+    server.add_registered_method_handlers("role.RoleService", rpc_method_handlers)
 
 
- # This class is part of an EXPERIMENTAL API.
+# This class is part of an EXPERIMENTAL API.
 class RoleService(object):
     """================================
     サービス定義
@@ -151,20 +155,22 @@ class RoleService(object):
     """
 
     @staticmethod
-    def CreateRole(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+    def CreateRole(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/role.RoleService/CreateRole',
+            "/role.RoleService/CreateRole",
             role__pb2.CreateRoleRequest.SerializeToString,
             role__pb2.RoleResponse.FromString,
             options,
@@ -175,23 +181,26 @@ class RoleService(object):
             wait_for_ready,
             timeout,
             metadata,
-            _registered_method=True)
+            _registered_method=True,
+        )
 
     @staticmethod
-    def GetRole(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+    def GetRole(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/role.RoleService/GetRole',
+            "/role.RoleService/GetRole",
             role__pb2.GetRoleRequest.SerializeToString,
             role__pb2.RoleResponse.FromString,
             options,
@@ -202,23 +211,26 @@ class RoleService(object):
             wait_for_ready,
             timeout,
             metadata,
-            _registered_method=True)
+            _registered_method=True,
+        )
 
     @staticmethod
-    def UpdateRole(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+    def UpdateRole(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/role.RoleService/UpdateRole',
+            "/role.RoleService/UpdateRole",
             role__pb2.UpdateRoleRequest.SerializeToString,
             role__pb2.RoleResponse.FromString,
             options,
@@ -229,23 +241,26 @@ class RoleService(object):
             wait_for_ready,
             timeout,
             metadata,
-            _registered_method=True)
+            _registered_method=True,
+        )
 
     @staticmethod
-    def DeleteRole(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+    def DeleteRole(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/role.RoleService/DeleteRole',
+            "/role.RoleService/DeleteRole",
             role__pb2.DeleteRoleRequest.SerializeToString,
             role__pb2.DeleteRoleResponse.FromString,
             options,
@@ -256,23 +271,26 @@ class RoleService(object):
             wait_for_ready,
             timeout,
             metadata,
-            _registered_method=True)
+            _registered_method=True,
+        )
 
     @staticmethod
-    def ListRoles(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+    def ListRoles(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/role.RoleService/ListRoles',
+            "/role.RoleService/ListRoles",
             role__pb2.ListRolesRequest.SerializeToString,
             role__pb2.ListRolesResponse.FromString,
             options,
@@ -283,4 +301,5 @@ class RoleService(object):
             wait_for_ready,
             timeout,
             metadata,
-            _registered_method=True)
+            _registered_method=True,
+        )
