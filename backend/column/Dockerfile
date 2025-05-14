@@ -5,7 +5,7 @@ COPY . /app
 
 # black をインストール
 RUN pip install --no-cache-dir black
-RUN black . --exclude=venv,proto
+RUN black . --check S--exclude=venv,proto
 
 # flake8 をインストール
 RUN pip install --no-cache-dir flake8
