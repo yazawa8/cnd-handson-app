@@ -16,10 +16,10 @@ RUN --mount=target=. \
     --mount=type=cache,target=/go/pkg/mod,sharing=locked \
     --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
     GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/task-service ./cmd/server/main.go
-# RUN --mount=target=. \
-#     --mount=type=cache,target=/go/pkg/mod,sharing=locked \
-#     --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
-#     GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/task-client ./cmd/client/main.go
+RUN --mount=target=. \
+    --mount=type=cache,target=/go/pkg/mod,sharing=locked \
+    --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
+    GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/task-client ./cmd/client/main.go
 
 
 FROM base AS unit-test

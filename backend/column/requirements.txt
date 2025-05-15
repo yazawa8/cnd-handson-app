@@ -10,3 +10,7 @@ setuptools==75.6.0
 smmap==5.0.2
 SQLAlchemy==2.0.40
 typing_extensions==4.13.2
+pytest==7.4.0
+pytest-asyncio==0.21.0
+pytest-cov==4.1.0
+pytest-mock==3.10.0

@@ -7,7 +7,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # [Optional] Uncomment the next lines to use Python get to install anything else you need
 # USER vscode
 RUN python -m pip install --upgrade pip \
-    && python -m pip install grpcio grpcio-tools psycopg2-binary SQLAlchemy
+    && python -m pip install grpcio grpcio-tools psycopg2-binary SQLAlchemy grpcio-health-checking black
 
 # USER root
 # [Optional] Uncomment this line to install global node packages.

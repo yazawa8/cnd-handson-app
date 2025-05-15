@@ -41,8 +41,7 @@ class RoleRepository:
             return None
 
     def list_all(self) -> list[RoleModel]:
-        """Roleの一覧取得
-        """
+        """Roleの一覧取得"""
         try:
             role_list = self.db.query(RoleModel).all()
             return role_list

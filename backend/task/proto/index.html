@@ -179,11 +179,47 @@
             <ul>
               
                 <li>
+                  <a href="#task.CreateTaskRequest"><span class="badge">M</span>CreateTaskRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#task.DeleteTaskRequest"><span class="badge">M</span>DeleteTaskRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#task.DeleteTaskResponse"><span class="badge">M</span>DeleteTaskResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#task.GetTaskRequest"><span class="badge">M</span>GetTaskRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#task.ListTasksRequest"><span class="badge">M</span>ListTasksRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#task.ListTasksResponse"><span class="badge">M</span>ListTasksResponse</a>
+                </li>
+              
+                <li>
                   <a href="#task.Task"><span class="badge">M</span>Task</a>
+                </li>
+              
+                <li>
+                  <a href="#task.TaskResponse"><span class="badge">M</span>TaskResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#task.UpdateTaskRequest"><span class="badge">M</span>UpdateTaskRequest</a>
                 </li>
               
               
               
+              
+                <li>
+                  <a href="#task.TaskService"><span class="badge">S</span>TaskService</a>
+                </li>
               
             </ul>
           </li>
@@ -200,8 +236,222 @@
       <p></p>
 
       
-        <h3 id="task.Task">Task</h3>
+        <h3 id="task.CreateTaskRequest">CreateTaskRequest</h3>
         <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>title</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>start_time</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>end_time</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>column_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>assignee_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="task.DeleteTaskRequest">DeleteTaskRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="task.DeleteTaskResponse">DeleteTaskResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>success</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="task.GetTaskRequest">GetTaskRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="task.ListTasksRequest">ListTasksRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>column_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>カラムID </p></td>
+                </tr>
+              
+                <tr>
+                  <td>assignee_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>担当者ID </p></td>
+                </tr>
+              
+                <tr>
+                  <td>page</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>ページ番号 </p></td>
+                </tr>
+              
+                <tr>
+                  <td>page_size</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>ページサイズ </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="task.ListTasksResponse">ListTasksResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>tasks</td>
+                  <td><a href="#task.Task">Task</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>タスクの総数 </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="task.Task">Task</h3>
+        <p>--- Task Entity ---</p>
 
         
           <table class="field-table">
@@ -240,14 +490,14 @@
               
                 <tr>
                   <td>start_time</td>
-                  <td><a href="#string">string</a></td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
               
                 <tr>
                   <td>end_time</td>
-                  <td><a href="#string">string</a></td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -273,12 +523,121 @@
 
         
       
+        <h3 id="task.TaskResponse">TaskResponse</h3>
+        <p>--- 共通レスポンス ---</p>
 
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>task</td>
+                  <td><a href="#task.Task">Task</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="task.UpdateTaskRequest">UpdateTaskRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>task</td>
+                  <td><a href="#task.Task">Task</a></td>
+                  <td></td>
+                  <td><p>更新内容 </p></td>
+                </tr>
+              
+                <tr>
+                  <td>update_mask</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
       
 
       
 
       
+
+      
+        <h3 id="task.TaskService">TaskService</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>GetTask</td>
+                <td><a href="#task.GetTaskRequest">GetTaskRequest</a></td>
+                <td><a href="#task.TaskResponse">TaskResponse</a></td>
+                <td><p>タスクの取得</p></td>
+              </tr>
+            
+              <tr>
+                <td>ListTasks</td>
+                <td><a href="#task.ListTasksRequest">ListTasksRequest</a></td>
+                <td><a href="#task.ListTasksResponse">ListTasksResponse</a></td>
+                <td><p>タスクの一覧取得</p></td>
+              </tr>
+            
+              <tr>
+                <td>CreateTask</td>
+                <td><a href="#task.CreateTaskRequest">CreateTaskRequest</a></td>
+                <td><a href="#task.TaskResponse">TaskResponse</a></td>
+                <td><p>タスクの作成</p></td>
+              </tr>
+            
+              <tr>
+                <td>UpdateTask</td>
+                <td><a href="#task.UpdateTaskRequest">UpdateTaskRequest</a></td>
+                <td><a href="#task.TaskResponse">TaskResponse</a></td>
+                <td><p>タスクの更新</p></td>
+              </tr>
+            
+              <tr>
+                <td>DeleteTask</td>
+                <td><a href="#task.DeleteTaskRequest">DeleteTaskRequest</a></td>
+                <td><a href="#task.DeleteTaskResponse">DeleteTaskResponse</a></td>
+                <td><p>タスクの削除</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
     
 
     <h2 id="scalar-value-types">Scalar Value Types</h2>

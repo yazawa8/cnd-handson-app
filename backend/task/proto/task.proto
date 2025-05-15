@@ -2,17 +2,90 @@ syntax = "proto3";
 
 package task;
 
-// import "google/protobuf/timestamp.proto";
-
 option go_package = "github.com/cloudnativedaysjp/cnd-handson-app/backend/task/proto;taskpb";
 
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+
+// ================================
+// サービス定義
+// ================================
+
+service TaskService {
+  // タスクの取得
+  rpc GetTask(GetTaskRequest) returns (TaskResponse);
+
+  // タスクの一覧取得
+  rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
+
+  // タスクの作成
+  rpc CreateTask(CreateTaskRequest) returns (TaskResponse);
+
+  // タスクの更新
+  rpc UpdateTask(UpdateTaskRequest) returns (TaskResponse);
+
+  // タスクの削除
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse);
+}
+
+// ================================
+// メッセージ定義
+// ================================
+
+// --- Task Entity ---
 message Task {
-    string id = 1;
-    string title = 2;
-    string description = 3;
-    string status = 4;
-    string start_time = 5;
-    string end_time = 6;
-    string column_id = 7; 
-    string assignee_id = 8;
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string status = 4;
+  google.protobuf.Timestamp start_time = 5;
+  google.protobuf.Timestamp end_time = 6;
+  string column_id = 7;
+  string assignee_id = 8;
+}
+
+// --- 共通レスポンス ---
+message TaskResponse {
+  Task task = 1;
+}
+
+message ListTasksResponse {
+  repeated Task tasks = 1;
+  int32 total_count = 2; // タスクの総数
+}
+
+// --- 各種リクエストメッセージ ---
+
+message GetTaskRequest {
+  string id = 1;
+}
+
+message ListTasksRequest {
+    string column_id = 1; // カラムID
+    string assignee_id = 2; // 担当者ID
+    int32 page = 3; // ページ番号
+    int32 page_size = 4; // ページサイズ
+}
+
+message CreateTaskRequest {
+  string title = 1;
+  string description = 2;
+  string status = 3;
+  string column_id = 6;
+  string assignee_id = 7;
+}
+
+message UpdateTaskRequest {
+  string id = 1;
+  Task task = 2; // 更新内容
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteTaskRequest {
+  string id = 1;
+}
+
+message DeleteTaskResponse {
+  bool success = 1;
 }

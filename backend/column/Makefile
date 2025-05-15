@@ -12,14 +12,8 @@ lint:
 	@docker build . --target lint
 
 .PHONY: proto
-proto: 
-	@protoc --proto_path=./proto --proto_path=./proto \
-	--go_out=./proto --go-grpc_out=./proto proto/column.proto
-	@mv proto/github.com/cloudnativedaysjp/cnd-handson-app/backend/column/proto/* proto/
-	@rm -rf proto/github.com
-	@protoc --proto_path=./proto \
-        --doc_out=./proto --doc_opt=markdown,README.md \
-        proto/column.proto
-	@protoc --proto_path=./proto \
-        --doc_out=./proto --doc_opt=html,index.html \
-        proto/column.proto
+proto:
+	@python -m grpc_tools.protoc -I. --python_out=./proto --grpc_python_out=./proto ./proto/column.proto
+	@mv ./proto/proto/* ./proto/
+	@rm -rf ./proto/proto
+

@@ -13,6 +13,7 @@ jobs:
     name: TypeScript Test
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         service: [frontend, bff]
 
@@ -35,6 +36,7 @@ jobs:
     name: Go Test
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         service: [project, user, session, board, task]
         include:
@@ -73,6 +75,7 @@ jobs:
     name: Python Test
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         service: [column, role]
         include:
