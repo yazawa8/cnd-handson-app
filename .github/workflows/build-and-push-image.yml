@@ -61,4 +61,4 @@ jobs:
         with:
           context: ${{ matrix.context}}
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.service }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ matrix.service }}:latest
