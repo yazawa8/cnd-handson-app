@@ -10,8 +10,10 @@ import (
 	"google.golang.org/grpc/health"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 
+	"github.com/cloudnativedaysjp/cnd-handson-app/backend/task/internal/task/handler"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/task/internal/task/model"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/task/pkg/db"
+	taskpb "github.com/cloudnativedaysjp/cnd-handson-app/backend/task/proto"
 )
 
 func main() {
@@ -60,8 +62,8 @@ func runServer() {
 	grpcServer := grpc.NewServer()
 
 	// gRPCサービスの登録
-	// taskService := &handler.TaskServiceServer{}
-	// userpb.RegisterUserServiceServer(grpcServer, taskService)
+	taskService := &handler.TaskServiceServer{}
+	taskpb.RegisterTaskServiceServer(grpcServer, taskService)
 
 	log.Printf("gRPC server listening on port %s", port)
 	if err := grpcServer.Serve(lis); err != nil {

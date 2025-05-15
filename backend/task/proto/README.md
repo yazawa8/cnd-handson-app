@@ -4,7 +4,17 @@
 ## Table of Contents
 
 - [task.proto](#task-proto)
+    - [CreateTaskRequest](#task-CreateTaskRequest)
+    - [DeleteTaskRequest](#task-DeleteTaskRequest)
+    - [DeleteTaskResponse](#task-DeleteTaskResponse)
+    - [GetTaskRequest](#task-GetTaskRequest)
+    - [ListTasksRequest](#task-ListTasksRequest)
+    - [ListTasksResponse](#task-ListTasksResponse)
     - [Task](#task-Task)
+    - [TaskResponse](#task-TaskResponse)
+    - [UpdateTaskRequest](#task-UpdateTaskRequest)
+  
+    - [TaskService](#task-TaskService)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -17,10 +27,110 @@
 
 
 
+<a name="task-CreateTaskRequest"></a>
+
+### CreateTaskRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| title | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| status | [string](#string) |  |  |
+| start_time | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| end_time | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| column_id | [string](#string) |  |  |
+| assignee_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="task-DeleteTaskRequest"></a>
+
+### DeleteTaskRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="task-DeleteTaskResponse"></a>
+
+### DeleteTaskResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| success | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="task-GetTaskRequest"></a>
+
+### GetTaskRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="task-ListTasksRequest"></a>
+
+### ListTasksRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| column_id | [string](#string) |  | カラムID |
+| assignee_id | [string](#string) |  | 担当者ID |
+| page | [int32](#int32) |  | ページ番号 |
+| page_size | [int32](#int32) |  | ページサイズ |
+
+
+
+
+
+
+<a name="task-ListTasksResponse"></a>
+
+### ListTasksResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| tasks | [Task](#task-Task) | repeated |  |
+| total_count | [int32](#int32) |  | タスクの総数 |
+
+
+
+
+
+
 <a name="task-Task"></a>
 
 ### Task
-
+--- Task Entity ---
 
 
 | Field | Type | Label | Description |
@@ -29,8 +139,8 @@
 | title | [string](#string) |  |  |
 | description | [string](#string) |  |  |
 | status | [string](#string) |  |  |
-| start_time | [string](#string) |  |  |
-| end_time | [string](#string) |  |  |
+| start_time | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| end_time | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
 | column_id | [string](#string) |  |  |
 | assignee_id | [string](#string) |  |  |
 
@@ -38,11 +148,57 @@
 
 
 
- 
+
+<a name="task-TaskResponse"></a>
+
+### TaskResponse
+--- 共通レスポンス ---
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| task | [Task](#task-Task) |  |  |
+
+
+
+
+
+
+<a name="task-UpdateTaskRequest"></a>
+
+### UpdateTaskRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| task | [Task](#task-Task) |  | 更新内容 |
+| update_mask | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
+
+
+
+
 
  
 
  
+
+ 
+
+
+<a name="task-TaskService"></a>
+
+### TaskService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetTask | [GetTaskRequest](#task-GetTaskRequest) | [TaskResponse](#task-TaskResponse) | タスクの取得 |
+| ListTasks | [ListTasksRequest](#task-ListTasksRequest) | [ListTasksResponse](#task-ListTasksResponse) | タスクの一覧取得 |
+| CreateTask | [CreateTaskRequest](#task-CreateTaskRequest) | [TaskResponse](#task-TaskResponse) | タスクの作成 |
+| UpdateTask | [UpdateTaskRequest](#task-UpdateTaskRequest) | [TaskResponse](#task-TaskResponse) | タスクの更新 |
+| DeleteTask | [DeleteTaskRequest](#task-DeleteTaskRequest) | [DeleteTaskResponse](#task-DeleteTaskResponse) | タスクの削除 |
 
  
 
