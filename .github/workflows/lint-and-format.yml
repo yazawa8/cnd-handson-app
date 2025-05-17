@@ -90,6 +90,7 @@ jobs:
                 path: backend/column
               - service: role
                 path: backend/role
+
       steps:
         - name: Checkout code
           uses: actions/checkout@v4
