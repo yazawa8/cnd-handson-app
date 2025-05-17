@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: [frontend, bff, project, user, session, board, task, column, role]
+        service: [frontend, project, user, session, task, column, role]
         include:
           - service: frontend
             context: frontend
