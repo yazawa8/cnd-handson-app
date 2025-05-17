@@ -1,21 +1,15 @@
-
-import React, { useState } from 'react';
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Paper,
-} from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { login } from '../features/sessions/slice';
-import { useNavigate } from 'react-router-dom';
+import type React from "react";
+import { useState } from "react";
+import { Box, TextField, Button, Typography, Paper } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { login } from "../features/sessions/slice";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,14 +17,14 @@ const Login: React.FC = () => {
     if (!email.trim() || !password) return;
 
     dispatch(login({ email }));
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <Box
       sx={{
         width: 400,
-        margin: '80px auto',
+        margin: "80px auto",
       }}
     >
       <Paper sx={{ p: 4 }}>
@@ -40,7 +34,7 @@ const Login: React.FC = () => {
         <Box
           component="form"
           onSubmit={handleSubmit}
-          sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
           <TextField
             label="メールアドレス"

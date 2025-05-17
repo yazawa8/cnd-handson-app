@@ -1,5 +1,4 @@
-
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface sessionState {
   isLoggedIn: boolean;
@@ -12,7 +11,7 @@ const initialState: sessionState = {
 };
 
 const sessionSlice = createSlice({
-  name: 'session',
+  name: "session",
   initialState,
   reducers: {
     login(state, action: PayloadAction<{ email: string }>) {

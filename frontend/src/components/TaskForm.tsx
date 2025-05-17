@@ -1,6 +1,17 @@
-import React, { useState } from 'react';
-import { Box, TextField, Button, Paper, Typography, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-import { Task } from '../features/tasks/types';
+import type React from "react";
+import { useState } from "react";
+import {
+  Box,
+  TextField,
+  Button,
+  Paper,
+  Typography,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
+import type { Task } from "../features/tasks/types";
 
 interface TaskFormProps {
   initialTask?: Partial<Task>;
@@ -9,33 +20,44 @@ interface TaskFormProps {
   onCancel?: () => void;
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ initialTask = {}, columnOptions, onSubmit, onCancel }) => {
-  const [title, setTitle] = useState(initialTask.title || '');
-  const [description, setDescription] = useState(initialTask.description || '');
-  const [columnId, setColumnId] = useState(initialTask.columnId || (columnOptions[0]?.id || ''));
+const TaskForm: React.FC<TaskFormProps> = ({
+  initialTask = {},
+  columnOptions,
+  onSubmit,
+  onCancel,
+}) => {
+  const [title, setTitle] = useState(initialTask.title || "");
+  const [description, setDescription] = useState(initialTask.description || "");
+  const [columnId, setColumnId] = useState(
+    initialTask.columnId || columnOptions[0]?.id || "",
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
 
     onSubmit({
-        id: initialTask.id || '',
-        title,
-        description,
-        columnId,
-        createdAt: initialTask.createdAt || new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        assigneeId: initialTask.assigneeId || '',
-        status: ''
+      id: initialTask.id || "",
+      title,
+      description,
+      columnId,
+      createdAt: initialTask.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      assigneeId: initialTask.assigneeId || "",
+      status: "",
     });
   };
 
   return (
-    <Paper sx={{ p: 4, width: '100%', maxWidth: 600, margin: 'auto' }}>
+    <Paper sx={{ p: 4, width: "100%", maxWidth: 600, margin: "auto" }}>
       <Typography variant="h5" gutterBottom>
-        {initialTask.id ? 'タスクを編集' : '新規タスク作成'}
+        {initialTask.id ? "タスクを編集" : "新規タスク作成"}
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+      >
         <TextField
           label="タイトル"
           value={title}
@@ -67,7 +89,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialTask = {}, columnOptions, on
           </Select>
         </FormControl>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
           {onCancel && <Button onClick={onCancel}>キャンセル</Button>}
           <Button type="submit" variant="contained" color="primary">
             保存

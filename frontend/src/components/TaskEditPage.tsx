@@ -1,31 +1,32 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
-import TaskForm from './TaskForm';
+import type React from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store";
+import TaskForm from "./TaskForm";
+import type { Task } from "../features/tasks/types";
 
 const TaskEditPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const task = useSelector((state: RootState) =>
-    state.tasks.tasks.find((t) => t.id === id)
+    state.tasks.tasks.find((t) => t.id === id),
   );
 
   const columnOptions = [
-    { id: 'col-1', name: 'Todo' },
-    { id: 'col-2', name: 'In Progress' },
-    { id: 'col-3', name: 'Done' },
+    { id: "col-1", name: "Todo" },
+    { id: "col-2", name: "In Progress" },
+    { id: "col-3", name: "Done" },
   ];
 
   if (!task) {
     return <div>タスクが見つかりません</div>;
   }
 
-  const handleSubmit = (updatedTask: any) => {
-    console.log('Updated Task:', updatedTask);
+  const handleSubmit = (updatedTask: Task) => {
+    console.log("Updated Task:", updatedTask);
     // 保存処理やステート更新、リダイレクト処理をここに追加
-    navigate('/');
+    navigate("/");
   };
 
   return (

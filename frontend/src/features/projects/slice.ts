@@ -1,34 +1,34 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Project } from './types';
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { Project } from "./types";
 
 interface ProjectsState {
   projects: Project[];
-  selectedId: string | '';
+  selectedId: string | "";
 }
 
 const initialState: ProjectsState = {
   projects: [
     {
-      id: 'proj-1',
-      name: 'Project Alpha',
-      description: 'Description for Project Alpha',
+      id: "proj-1",
+      name: "Project Alpha",
+      description: "Description for Project Alpha",
     },
     {
-      id: 'proj-2',
-      name: 'Project Beta',
-      description: 'Description for Project Beta',
+      id: "proj-2",
+      name: "Project Beta",
+      description: "Description for Project Beta",
     },
     {
-      id: 'proj-3',
-      name: 'Project Gamma',
-      description: 'Description for Project Gamma',
+      id: "proj-3",
+      name: "Project Gamma",
+      description: "Description for Project Gamma",
     },
   ],
-  selectedId: '',
+  selectedId: "",
 };
 
 const projectsSlice = createSlice({
-  name: 'projects',
+  name: "projects",
   initialState,
   reducers: {
     setProjects(state, action: PayloadAction<Project[]>) {
@@ -38,22 +38,32 @@ const projectsSlice = createSlice({
       state.selectedId = action.payload;
     },
     deleteProject(state, action: PayloadAction<string>) {
-      state.projects = state.projects.filter((project) => project.id !== action.payload);
+      state.projects = state.projects.filter(
+        (project) => project.id !== action.payload,
+      );
       if (state.selectedId === action.payload) {
-        state.selectedId = '';
+        state.selectedId = "";
       }
     },
     addProject(state, action: PayloadAction<Project>) {
       state.projects.push(action.payload);
     },
     updateProject(state, action: PayloadAction<Project>) {
-      const index = state.projects.findIndex((project) => project.id === action.payload.id);
+      const index = state.projects.findIndex(
+        (project) => project.id === action.payload.id,
+      );
       if (index !== -1) {
         state.projects[index] = action.payload;
       }
-    }
+    },
   },
 });
 
-export const { setProjects, setSelectedProject, deleteProject, addProject, updateProject } = projectsSlice.actions;
+export const {
+  setProjects,
+  setSelectedProject,
+  deleteProject,
+  addProject,
+  updateProject,
+} = projectsSlice.actions;
 export default projectsSlice.reducer;

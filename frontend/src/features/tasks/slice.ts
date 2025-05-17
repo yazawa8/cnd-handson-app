@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-import { Task } from './types';
+import type { Task } from './types';
 function generateId(): string {
     return Math.random().toString(36).substr(2, 9);
   }
@@ -99,7 +99,7 @@ const tasksSlice = createSlice({
         status: string,
         columnId: string,
         assigneeId: string,
-        description: string = '',
+        description = '',
         startTimeAt?: string,
         endTimeAt?: string
       ): { payload: Task } {

@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import Column from './Column';
-import { Column as ColumnType } from '../features/columns/types';
-import { removeColumn } from '../features/columns/slice';
-import { updateTaskColumn } from '../features/tasks/slice';
-import { DndContext,  useSensor, useSensors, MouseSensor, DragEndEvent } from '@dnd-kit/core';
-import AddButton from './AddButton';
-import { v4 as uuidv4 } from 'uuid';
+import type React from "react";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../store";
+import Column from "./Column";
+import type { Column as ColumnType } from "../features/columns/types";
+import { removeColumn } from "../features/columns/slice";
+import { updateTaskColumn } from "../features/tasks/slice";
+import {
+  DndContext,
+  useSensor,
+  useSensors,
+  MouseSensor,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import AddButton from "./AddButton";
+import { v4 as uuidv4 } from "uuid";
 
 const KanbanBoard: React.FC = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
 
-  const initialColumns: ColumnType[] = useSelector((state: RootState) => state.columns.columns);
+  const initialColumns: ColumnType[] = useSelector(
+    (state: RootState) => state.columns.columns,
+  );
 
   // 初期は空のカラムリスト
   const [columns, setColumns] = useState<ColumnType[]>(initialColumns);
@@ -29,13 +38,19 @@ const KanbanBoard: React.FC = () => {
   const handleAddColumn = () => {
     const newColumn = {
       id: uuidv4(),
-      name: '',
+      name: "",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
     setColumns([...columns, newColumn]);
   };
 
   const handleUpdateColumnName = (id: string, name: string) => {
-    setColumns(columns.map(column => column.id === id ? { ...column, name } : column));
+    setColumns(
+      columns.map((column) =>
+        column.id === id ? { ...column, name } : column,
+      ),
+    );
     if (handleUpdateColumnName) {
       handleUpdateColumnName(id, name);
     }
@@ -43,21 +58,25 @@ const KanbanBoard: React.FC = () => {
 
   const handleDeleteColumn = (id: string) => {
     dispatch(removeColumn(id));
-    setColumns(columns.filter(c => c.id !== id));
+    setColumns(columns.filter((c) => c.id !== id));
   };
 
   const sensors = useSensors(
-    useSensor(MouseSensor, { activationConstraint: { distance: 5 } })
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
   );
 
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px' }}>
+      <div
+        style={{ display: "flex", justifyContent: "flex-end", padding: "8px" }}
+      >
         <AddButton label="列を追加" onClick={handleAddColumn} />
       </div>
-      <div style={{ display: 'flex', gap: '16px', padding: '16px' }}>
+      <div style={{ display: "flex", gap: "16px", padding: "16px" }}>
         {columns.map((column) => {
-          const tasksInColumn = tasks.filter(task => task.columnId === column.id);
+          const tasksInColumn = tasks.filter(
+            (task) => task.columnId === column.id,
+          );
           return (
             <Column
               key={column.id}
@@ -65,7 +84,7 @@ const KanbanBoard: React.FC = () => {
               tasks={tasksInColumn}
               onUpdateColumnName={handleUpdateColumnName}
               onDeleteColumn={handleDeleteColumn}
-              initiallyEditing={column.name === ''}
+              initiallyEditing={column.name === ""}
             />
           );
         })}

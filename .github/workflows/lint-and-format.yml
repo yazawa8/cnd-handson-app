@@ -37,7 +37,7 @@ jobs:
         run: npx @biomejs/biome lint ./${{ matrix.service }}/src/
       
       - name: Format check with Biome
-        run: npx @biomejs/biome format ./${{ matrix.service }}/src/ --write=false --verbose
+        run: npx @biomejs/biome format ./${{ matrix.service }}/src/ --verbose
   
   go-lint-format:
     name: Go lint and format
