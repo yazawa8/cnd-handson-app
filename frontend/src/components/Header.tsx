@@ -1,5 +1,5 @@
-
-import React, { useEffect } from 'react';
+import type React from "react";
+import { useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -10,71 +10,75 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store';
-import { setSelectedProject } from '../features/projects/slice';
+  type SelectChangeEvent,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../store";
+import { setSelectedProject } from "../features/projects/slice";
 
 const Header: React.FC = () => {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const projects = useSelector((state: RootState) => state.projects.projects);
-  const selectedId = useSelector((state: RootState) => state.projects.selectedId);
-  const isLoggedIn = useSelector((state: RootState) => state.session.isLoggedIn);
+  const selectedId = useSelector(
+    (state: RootState) => state.projects.selectedId,
+  );
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.session.isLoggedIn,
+  );
 
   if (!isLoggedIn) return null;
 
-  const handleProjectChange = (e: React.ChangeEvent<{ value: unknown }>) => {
-    const id = e.target.value as string;
+  const handleProjectChange = (event: SelectChangeEvent) => {
+    const id = event.target.value as string;
     dispatch(setSelectedProject(id));
-    navigate('/boards');
+    navigate("/boards");
   };
 
   return (
     <AppBar position="static">
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box
-          sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-          onClick={() => navigate('/')}
+          sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+          onClick={() => navigate("/")}
         >
           <Typography variant="h6">My Kanban App</Typography>
 
-            <FormControl variant="standard" sx={{ minWidth: 200, marginLeft: 4 }}>
-            <InputLabel id="project-select-label" sx={{ color: '#fff' }}>
-                Project
+          <FormControl variant="standard" sx={{ minWidth: 200, marginLeft: 4 }}>
+            <InputLabel id="project-select-label" sx={{ color: "#fff" }}>
+              Project
             </InputLabel>
             <Select
-                labelId="project-select-label"
-                value={selectedId}
-                onChange={handleProjectChange}
-                sx={{
-                color: '#fff',
-                '& .MuiSelect-icon': { color: '#fff' },
-                '&:before, &:after': { borderColor: '#fff' },
-                }}
-                label="Project"
+              labelId="project-select-label"
+              value={selectedId}
+              onChange={handleProjectChange}
+              sx={{
+                color: "#fff",
+                "& .MuiSelect-icon": { color: "#fff" },
+                "&:before, &:after": { borderColor: "#fff" },
+              }}
+              label="Project"
             >
-                {projects.map((proj: { id: any; name: any; }) => (
+              {projects.map((proj: { id: string; name: string }) => (
                 <MenuItem key={proj.id} value={proj.id}>
-                    {proj.name}
+                  {proj.name}
                 </MenuItem>
-                ))}
+              ))}
             </Select>
-            </FormControl>
+          </FormControl>
         </Box>
         <Box>
-          <Button color="inherit" onClick={() => navigate('/')}>
+          <Button color="inherit" onClick={() => navigate("/")}>
             Projects
           </Button>
-          <Button color="inherit" onClick={() => navigate('/boards')}>
+          <Button color="inherit" onClick={() => navigate("/boards")}>
             Boards
           </Button>
           <Button
             color="inherit"
             onClick={() => {
-              navigate('/login');
+              navigate("/login");
             }}
           >
             Logout

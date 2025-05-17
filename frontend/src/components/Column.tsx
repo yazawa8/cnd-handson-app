@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Box, Typography, TextField, IconButton } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import { useDroppable } from '@dnd-kit/core';
-import { Column as ColumnType } from '../features/columns/types';
-import { Task } from '../features/tasks/types';
-import TaskCard from './TaskCard';
-import { useNavigate } from 'react-router-dom';
+import type React from "react";
+import { useState } from "react";
+import { Box, Typography, TextField, IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import { useDroppable } from "@dnd-kit/core";
+import type { Column as ColumnType } from "../features/columns/types";
+import type { Task } from "../features/tasks/types";
+import TaskCard from "./TaskCard";
+import { useNavigate } from "react-router-dom";
 
 interface ColumnProps {
   column: ColumnType;
@@ -18,7 +19,14 @@ interface ColumnProps {
   initiallyEditing?: boolean;
 }
 
-const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDeleteColumn, onAdd, initiallyEditing = false }) => {
+const Column: React.FC<ColumnProps> = ({
+  column,
+  tasks,
+  onUpdateColumnName,
+  onDeleteColumn,
+  onAdd,
+  initiallyEditing = false,
+}) => {
   const { setNodeRef, isOver } = useDroppable({ id: column.id });
 
   const [isEditing, setIsEditing] = useState(initiallyEditing);
@@ -38,7 +46,7 @@ const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDe
   };
 
   const handleDelete = () => {
-    if (onDeleteColumn && window.confirm('このカラムを削除しますか？')) {
+    if (onDeleteColumn && window.confirm("このカラムを削除しますか？")) {
       onDeleteColumn(column.id);
     }
   };
@@ -47,16 +55,16 @@ const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDe
     <Box
       ref={setNodeRef}
       sx={{
-        border: isOver ? '2px dashed #4CAF50' : '1px solid #ccc',
+        border: isOver ? "2px dashed #4CAF50" : "1px solid #ccc",
         borderRadius: 2,
         p: 2,
         minWidth: 280,
-        backgroundColor: '#fafafa',
+        backgroundColor: "#fafafa",
         boxShadow: 1,
-        position: 'relative',
+        position: "relative",
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
         {isEditing ? (
           <form onSubmit={handleSubmit} style={{ flexGrow: 1 }}>
             <TextField
@@ -71,7 +79,7 @@ const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDe
         ) : (
           <Typography
             variant="h6"
-            sx={{ flexGrow: 1, cursor: 'pointer' }}
+            sx={{ flexGrow: 1, cursor: "pointer" }}
             onClick={startEditing}
           >
             {column.name}
@@ -96,7 +104,7 @@ const Column: React.FC<ColumnProps> = ({ column, tasks, onUpdateColumnName, onDe
       <IconButton
         size="small"
         color="primary"
-        sx={{ position: 'absolute', bottom: 8, right: 8 }}
+        sx={{ position: "absolute", bottom: 8, right: 8 }}
         onClick={() => navigate(`/tasks/new?columnId=${column.id}`)}
       >
         <AddIcon />
