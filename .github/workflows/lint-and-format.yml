@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: [frontend, bff]
+        service: [frontend]
     
     steps:
       - name: Checkout code
@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-          service: [project, user, session, board, task]
+          service: [project, user, session, task]
           include:
             - service: project
               path: backend/project
@@ -53,8 +53,6 @@ jobs:
               path: backend/user
             - service: session
               path: backend/session
-            - service: board
-              path: backend/board
             - service: task
               path: backend/task
   
