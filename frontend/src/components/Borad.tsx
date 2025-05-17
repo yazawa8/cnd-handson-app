@@ -1,20 +1,20 @@
-import type React from "react";
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store";
-import Column from "./Column";
-import type { Column as ColumnType } from "../features/columns/types";
-import { removeColumn } from "../features/columns/slice";
-import { updateTaskColumn } from "../features/tasks/slice";
 import {
   DndContext,
+  type DragEndEvent,
+  MouseSensor,
   useSensor,
   useSensors,
-  MouseSensor,
-  type DragEndEvent,
 } from "@dnd-kit/core";
-import AddButton from "./AddButton";
+import type React from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { removeColumn } from "../features/columns/slice";
+import type { Column as ColumnType } from "../features/columns/types";
+import { updateTaskColumn } from "../features/tasks/slice";
+import type { RootState } from "../store";
+import AddButton from "./AddButton";
+import Column from "./Column";
 
 const KanbanBoard: React.FC = () => {
   const dispatch = useDispatch();

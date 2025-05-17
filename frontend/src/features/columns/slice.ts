@@ -1,6 +1,6 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { Column } from "./types";
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import type { Column } from "./types";
 
 interface ColumnsState {
   columns: Column[];
