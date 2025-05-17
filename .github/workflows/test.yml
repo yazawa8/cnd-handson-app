@@ -46,8 +46,6 @@ jobs:
             path: backend/user
           - service: session
             path: backend/session
-          - service: board
-            path: backend/board
           - service: task
             path: backend/task
 
