@@ -18,7 +18,6 @@ jobs:
       attestations: write
       id-token: write
     strategy:
-      fail-fast: false
       matrix:
         service: [frontend, project, user, session, task, column, role]
         include:
