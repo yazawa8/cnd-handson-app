@@ -1,9 +1,9 @@
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import type React from "react";
 import { useState } from "react";
-import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { login } from "../features/sessions/slice";
 import { useNavigate } from "react-router-dom";
+import { login } from "../features/sessions/slice";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();

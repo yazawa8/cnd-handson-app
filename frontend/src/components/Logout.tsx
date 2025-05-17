@@ -1,8 +1,8 @@
 import type React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "../features/sessions/slice";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../features/sessions/slice";
 
 const Logout: React.FC = () => {
   const dispatch = useDispatch();

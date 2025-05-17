@@ -1,18 +1,18 @@
-import type React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store";
-import type { Board } from "../features/boards/types";
 import {
   Box,
-  Grid,
   Card,
-  CardContent,
-  Typography,
   CardActionArea,
+  CardContent,
+  Grid,
+  Typography,
 } from "@mui/material";
+import type React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MoreMenu, { type MoreMenuOption } from "./MoreMenu";
+import type { Board } from "../features/boards/types";
+import type { RootState } from "../store";
 import AddButton from "./AddButton";
+import MoreMenu, { type MoreMenuOption } from "./MoreMenu";
 
 const BoardList: React.FC = () => {
   const navigate = useNavigate();

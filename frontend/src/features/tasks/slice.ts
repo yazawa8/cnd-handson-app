@@ -1,93 +1,93 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
-import type { Task } from './types';
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
+import type { Task } from "./types";
 function generateId(): string {
-    return Math.random().toString(36).substr(2, 9);
-  }
-  
+  return Math.random().toString(36).substr(2, 9);
+}
+
 type TasksState = {
   tasks: Task[];
 };
 
 const initialState: TasksState = {
-    tasks: [
-      {
-        id: generateId(),
-        title: 'サンプルタスク1',
-        description: '説明1',
-        status: 'open',
-        columnId: 'column-1',
-        startTimeAt: undefined,
-        endTimeAt: undefined,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        assigneeId: 'user-1',
-      },
-      {
-        id: generateId(),
-        title: 'サンプルタスク2',
-        description: '説明2',
-        status: 'in-progress',
-        columnId: 'column-2',
-        startTimeAt: undefined,
-        endTimeAt: undefined,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        assigneeId: 'user-2',
-      },
-      {
-        id: generateId(),
-        title: 'サンプルタスク2',
-        description: '説明2',
-        status: 'in-progress',
-        columnId: 'column-2',
-        startTimeAt: undefined,
-        endTimeAt: undefined,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        assigneeId: 'user-2',
-      },
-      {
-        id: generateId(),
-        title: 'サンプルタスク2',
-        description: '説明2',
-        status: 'in-progress',
-        columnId: 'column-2',
-        startTimeAt: undefined,
-        endTimeAt: undefined,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        assigneeId: 'user-2',
-      },
-      {
-        id: generateId(),
-        title: 'サンプルタスク2',
-        description: '説明2',
-        status: 'in-progress',
-        columnId: 'column-2',
-        startTimeAt: undefined,
-        endTimeAt: undefined,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        assigneeId: 'user-2',
-      },
-      {
-        id: generateId(),
-        title: 'サンプルタスク2',
-        description: '説明2',
-        status: 'in-progress',
-        columnId: 'column-2',
-        startTimeAt: undefined,
-        endTimeAt: undefined,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        assigneeId: 'user-2',
-      },
-    ],
-  };
+  tasks: [
+    {
+      id: generateId(),
+      title: "サンプルタスク1",
+      description: "説明1",
+      status: "open",
+      columnId: "column-1",
+      startTimeAt: undefined,
+      endTimeAt: undefined,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      assigneeId: "user-1",
+    },
+    {
+      id: generateId(),
+      title: "サンプルタスク2",
+      description: "説明2",
+      status: "in-progress",
+      columnId: "column-2",
+      startTimeAt: undefined,
+      endTimeAt: undefined,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      assigneeId: "user-2",
+    },
+    {
+      id: generateId(),
+      title: "サンプルタスク2",
+      description: "説明2",
+      status: "in-progress",
+      columnId: "column-2",
+      startTimeAt: undefined,
+      endTimeAt: undefined,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      assigneeId: "user-2",
+    },
+    {
+      id: generateId(),
+      title: "サンプルタスク2",
+      description: "説明2",
+      status: "in-progress",
+      columnId: "column-2",
+      startTimeAt: undefined,
+      endTimeAt: undefined,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      assigneeId: "user-2",
+    },
+    {
+      id: generateId(),
+      title: "サンプルタスク2",
+      description: "説明2",
+      status: "in-progress",
+      columnId: "column-2",
+      startTimeAt: undefined,
+      endTimeAt: undefined,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      assigneeId: "user-2",
+    },
+    {
+      id: generateId(),
+      title: "サンプルタスク2",
+      description: "説明2",
+      status: "in-progress",
+      columnId: "column-2",
+      startTimeAt: undefined,
+      endTimeAt: undefined,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      assigneeId: "user-2",
+    },
+  ],
+};
 
 const tasksSlice = createSlice({
-  name: 'tasks',
+  name: "tasks",
   initialState,
   reducers: {
     addTask: {
@@ -99,15 +99,15 @@ const tasksSlice = createSlice({
         status: string,
         columnId: string,
         assigneeId: string,
-        description = '',
+        description = "",
         startTimeAt?: string,
-        endTimeAt?: string
+        endTimeAt?: string,
       ): { payload: Task } {
         const timestamp = new Date().toISOString();
         return {
           payload: {
             id: generateId(),
-            title,      
+            title,
             description,
             status,
             startTimeAt,
@@ -120,7 +120,10 @@ const tasksSlice = createSlice({
         };
       },
     },
-    updateTaskColumn(state, action: PayloadAction<{ taskId: string; columnId: string }>) {
+    updateTaskColumn(
+      state,
+      action: PayloadAction<{ taskId: string; columnId: string }>,
+    ) {
       const { taskId, columnId } = action.payload;
       const task = state.tasks.find((task) => task.id === taskId);
       if (task) {
@@ -130,7 +133,7 @@ const tasksSlice = createSlice({
     },
     deleteTask(state, action: PayloadAction<string>) {
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
-    }
+    },
   },
 });
 

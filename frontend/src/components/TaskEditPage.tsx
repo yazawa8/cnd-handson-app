@@ -1,9 +1,9 @@
 import type React from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import type { Task } from "../features/tasks/types";
 import type { RootState } from "../store";
 import TaskForm from "./TaskForm";
-import type { Task } from "../features/tasks/types";
 
 const TaskEditPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

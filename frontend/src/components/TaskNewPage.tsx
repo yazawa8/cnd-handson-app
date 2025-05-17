@@ -1,7 +1,7 @@
 import type React from "react";
-import TaskForm from "./TaskForm";
 import { useSearchParams } from "react-router-dom";
 import type { Task } from "../features/tasks/types";
+import TaskForm from "./TaskForm";
 
 const NewTaskPage: React.FC = () => {
   const [searchParams] = useSearchParams();

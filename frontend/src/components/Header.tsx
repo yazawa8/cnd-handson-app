@@ -1,21 +1,21 @@
-import type React from "react";
-import { useEffect } from "react";
 import {
   AppBar,
-  Toolbar,
-  Typography,
   Box,
   Button,
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
+  Select,
   type SelectChangeEvent,
+  Toolbar,
+  Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import type React from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../store";
+import { useNavigate } from "react-router-dom";
 import { setSelectedProject } from "../features/projects/slice";
+import type { RootState } from "../store";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();

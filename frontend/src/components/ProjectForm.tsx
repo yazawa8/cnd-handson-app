@@ -1,12 +1,12 @@
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import type React from "react";
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import { addProject, updateProject } from "../features/projects/slice";
 import type { Project } from "../features/projects/types";
-import { Box, TextField, Button, Paper, Typography } from "@mui/material";
-import { v4 as uuidv4 } from "uuid";
+import type { RootState } from "../store";
 
 const ProjectForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();

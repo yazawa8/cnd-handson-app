@@ -1,13 +1,13 @@
+import { useDraggable } from "@dnd-kit/core";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 // src/components/TaskCard.tsx
 import type React from "react";
 import { useState } from "react";
-import { Box, Card, CardContent, Typography } from "@mui/material";
-import type { Task } from "../features/tasks/types";
-import { useDraggable } from "@dnd-kit/core";
-import { useNavigate } from "react-router-dom";
-import MoreMenu, { type MoreMenuOption } from "./MoreMenu";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { deleteTask } from "../features/tasks/slice";
+import type { Task } from "../features/tasks/types";
+import MoreMenu, { type MoreMenuOption } from "./MoreMenu";
 
 interface TaskCardProps {
   task: Task;

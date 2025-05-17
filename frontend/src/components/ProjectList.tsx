@@ -1,25 +1,25 @@
-// src/components/ProjectList.tsx
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store";
 import {
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  CardActionArea,
   Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  Grid,
   IconButton,
   Menu,
   MenuItem,
+  Typography,
 } from "@mui/material";
+// src/components/ProjectList.tsx
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setSelectedProject } from "../features/projects/slice";
 import { deleteProject, updateProject } from "../features/projects/slice";
-import MoreMenu, { type MoreMenuOption } from "./MoreMenu";
-import AddButton from "./AddButton";
-import ProjectForm from "./ProjectForm";
 import type { Project } from "../features/projects/types";
+import type { RootState } from "../store";
+import AddButton from "./AddButton";
+import MoreMenu, { type MoreMenuOption } from "./MoreMenu";
+import ProjectForm from "./ProjectForm";
 
 const ProjectList: React.FC = () => {
   const projects = useSelector((state: RootState) => state.projects.projects);

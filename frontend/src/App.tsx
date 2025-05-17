@@ -1,23 +1,23 @@
 import React from "react";
 import { Provider, useSelector } from "react-redux";
-import { store } from "./store";
 import {
+  Navigate,
+  Route,
   BrowserRouter as Router,
   Routes,
-  Route,
-  Navigate,
 } from "react-router-dom";
+import BoardForm from "./components/BoardForm";
 import BoardList from "./components/BoardList";
 import Borad from "./components/Borad";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import PrivateLayout from "./components/PrivateLayout";
-import ProjectList from "./components/ProjectList";
 import ProjectForm from "./components/ProjectForm";
-import type { Project } from "./features/projects/types";
-import BoardForm from "./components/BoardForm";
-import NewTaskPage from "./components/TaskNewPage";
+import ProjectList from "./components/ProjectList";
 import TaskEditPage from "./components/TaskEditPage";
+import NewTaskPage from "./components/TaskNewPage";
+import type { Project } from "./features/projects/types";
+import { store } from "./store";
 
 function App() {
   return (
