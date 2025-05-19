@@ -1,8 +1,4 @@
-```
-PYTHONPATH=/workspaces/role python3 /workspaces/role/cmd/server/main.py
-```
-
-# User Service
+# Role Service
 
 CloudNative Days Handson用のロールサービスのサンプルアプリケーションです。
 

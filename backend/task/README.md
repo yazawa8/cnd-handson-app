@@ -66,6 +66,62 @@ make
 ```
 binにtask-serviceバイナリが作成されます。
 ## Quick Start
+### タスクの作成
+#### コマンド
+```bash
+go run cmd/client/main.go create-task <title> <description> <status> <column_id> <Assgnee_id>
+```
+
+#### 例
+```bash
+go run cmd/client/main.go create-task "Task Title" "Task Description" "TODO" 9d1e1d77-113a-8f18-7737-452806dbd3e5 1683b280-6d67-1753-e1f6-c6a9932f2a51
+Task created: id:"1fd35ddd-7793-40cf-bf27-31a2937941b8"  title:"Task Title"  description:"Task Description"  status:"TODO"  start_time:{seconds:1747614680  nanos:738533000}  end_time:{seconds:1747614680  nanos:738533966}  column_id:"9d1e1d77-113a-8f18-7737-452806dbd3e5"  assignee_id:"1683b280-6d67-1753-e1f6-c6a9932f2a51"
+```
+
+### タスクの更新
+#### コマンド
+```bash
+go run cmd/client/main.go update-task -id -title -description -status -column_id -assgnee_id
+```
+#### 例
+```bash
+$ go run cmd/client/main.go update-task -id 1fd35ddd-7793-40cf-bf27-31a2937941b8 -title "Updated Task Title" -description "Updated Task Description" -status "IN_PROGRESS"
+Task updated: id:"1fd35ddd-7793-40cf-bf27-31a2937941b8"  title:"Updated Task Title"  description:"Updated Task Description"  status:"IN_PROGRESS"  start_time:{seconds:1747614680  nanos:738533000}  end_time:{seconds:1747614819  nanos:189074002}  column_id:"9d1e1d77-113a-8f18-7737-452806dbd3e5"  assignee_id:"1683b280-6d67-1753-e1f6-c6a9932f2a51"
+```
+### タスクの取得
+#### コマンド
+```bash
+go run cmd/client/main.go get-task <task_id>
+```
+#### 例
+```bash
+$ go run cmd/client/main.go get-task 1fd35ddd-7793-40cf-bf27-31a2937941b8
+Task: id:"1fd35ddd-7793-40cf-bf27-31a2937941b8"  title:"Updated Task Title"  description:"Updated Task Description"  status:"IN_PROGRESS"  start_time:{seconds:1747614680  nanos:738533000}  end_time:{seconds:1747614819  nanos:189074000}  column_id:"9d1e1d77-113a-8f18-7737-452806dbd3e5"  assignee_id:"1683b280-6d67-1753-e1f6-c6a9932f2a51"
+```
+
+### タスクの一覧表示
+#### コマンド
+```bash
+go run cmd/client/main.go list-tasks <column_id> <assignee_id> <page> <page_size>
+```
+#### 例
+```bash
+$ go run cmd/client/main.go list-tasks 9d1e1d77-113a-8f18-7737-452806dbd3e5 1683b280-6d67-1753-e1f6-c6a9932f2a51 1 10
+タスク一覧: 
+ID: 1fd35ddd-7793-40cf-bf27-31a2937941b8, Title: Updated Task Title, Description: Updated Task Description, Status: IN_PROGRESS
+Total Count: 1
+```
+
+### タスクの削除
+#### コマンド
+```bash
+go run cmd/client/main.go delete-task <task_id>
+```
+#### 例
+```bash
+$ go run cmd/client/main.go delete-task 1fd35ddd-7793-40cf-bf27-31a2937941b8
+削除成功: true
+```
 
 ---
 
