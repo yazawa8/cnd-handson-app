@@ -12,10 +12,6 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-type projectService struct {
-	repo repository.ProjectRepository
-}
-
 type ProjectServiceServer struct {
 	projectpb.UnimplementedProjectServiceServer
 }
@@ -25,10 +21,10 @@ func convertToProtoProject(project *model.Project) *projectpb.Project {
 	return &projectpb.Project{
 		Id:          project.ID.String(),
 		Name:        project.Name,
-		Description: project.Description,
+	Description: project.Description,
 		OwnerId:     project.OwnerID.String(),
 		CreatedAt:   timestamppb.New(project.CreatedAt),
-		UpdatedAt:   timestamppb.New(project.UpdatedAt),
+	UpdatedAt:   timestamppb.New(project.UpdatedAt),
 	}
 }
 
