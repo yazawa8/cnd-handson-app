@@ -12,6 +12,10 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+type projectService struct {
+	repo repository.ProjectRepository
+}
+
 type ProjectServiceServer struct {
 	projectpb.UnimplementedProjectServiceServer
 }
